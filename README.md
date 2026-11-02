@@ -8,7 +8,7 @@ In theatre, the cue sheet is the document that keeps a show alive. Every cue, in
 
 ## Status
 
-Round 2 landed in PR 4 and is recorded closed here. The gaps view for one harness at one decision point is in place under contract obligations CU-1 to CU-18, reading the same recorded catalogue and context as the sheet and naming every action the sheet leaves off, each with the rule tests that blocked it. Closed rounds 2 of 100. Part of the impatient programming portfolio, in the Fleet Operations arc.
+Round 3 is built and in review. The set reading of the lists and the rules of the format is in place under contract obligations CU-1 to CU-19, so a repeated option in a fact declaration, a repeated token in a recorded set, and a repeated rule test inside one action each read as the item written once, and the sheet and the gaps view read the same recorded catalogue and context as before. Closed rounds 2 of 100. Part of the impatient programming portfolio, in the Fleet Operations arc.
 
 ## Licence
 
