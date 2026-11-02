@@ -86,7 +86,8 @@ def _finish_action(pending, source):
             f"{source} is malformed, the action {name} carries no "
             "fires-in-turn line"
         )
-    return Action(name, tuple(tests), fires, fires_in_turn)
+    distinct = tuple(dict.fromkeys(tests))
+    return Action(name, distinct, fires, fires_in_turn)
 
 
 def parse_catalogue(text, source):
