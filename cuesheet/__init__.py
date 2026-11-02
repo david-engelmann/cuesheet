@@ -3,7 +3,7 @@
 from .catalogue import Action, Catalogue, Fact, load_catalogue
 from .context import Context, load_context
 from .errors import CatalogueError, ContextError, CuesheetError
-from .sheet import build_sheet, format_sheet
+from .sheet import Gap, build_gaps, build_sheet, format_gaps, format_sheet
 
 __all__ = [
     "Action",
@@ -13,7 +13,10 @@ __all__ = [
     "CatalogueError",
     "ContextError",
     "Fact",
+    "Gap",
+    "build_gaps",
     "build_sheet",
+    "format_gaps",
     "format_sheet",
     "load_catalogue",
     "load_context",

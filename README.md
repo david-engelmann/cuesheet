@@ -8,7 +8,7 @@ In theatre, the cue sheet is the document that keeps a show alive. Every cue, in
 
 ## Status
 
-Round 1 is closed. The action surface for one harness at one decision point is in place under contract obligations CU-1 to CU-13, reading one recorded catalogue and one recorded context and listing exactly the actions available at that point, each with the evidence for its rule. Closed rounds 1 of 100. Part of the impatient programming portfolio, in the Fleet Operations arc.
+Round 2 is built and in review. The gaps view for one harness at one decision point is in place under contract obligations CU-1 to CU-17, reading the same recorded catalogue and context as the sheet and naming every action the sheet leaves off, each with the rule tests that blocked it. Closed rounds 1 of 100. Part of the impatient programming portfolio, in the Fleet Operations arc.
 
 ## Licence
 

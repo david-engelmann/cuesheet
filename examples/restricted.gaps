@@ -1,0 +1,14 @@
+gaps stagehand quiet-hours
+gap ask-human
+blocked human-present is yes, not recorded
+gap edit-file
+blocked tools has edit, recorded read, search
+blocked last-action is read-file, recorded none
+gap run-command
+blocked tools has run, recorded read, search
+blocked usage-window is inside, recorded outside
+gap send-update
+blocked tools has message, recorded read, search
+gap spawn-helper
+blocked tools has spawn, recorded read, search
+blocked usage-window is inside, recorded outside

@@ -1,0 +1,3 @@
+gaps stagehand after-read
+gap spawn-helper
+blocked tools has spawn, recorded edit, message, read, run, search
