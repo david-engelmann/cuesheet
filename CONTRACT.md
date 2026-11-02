@@ -70,3 +70,26 @@ CU-11. Generating a sheet reads only the catalogue and context files it is hande
 CU-12. The examples in this repo are one synthetic catalogue for one harness, two recorded contexts for that harness, and the two sheets those contexts produce, and the committed sheets are byte identical to what the tool produces from the committed catalogue and contexts.
 
 CU-13. Amendment, added by the Round 1 review. The preamble's phrase for a set fact, that it carries any subset of its declared tokens, is read with the context grammar, which records one or more tokens on a fact line. A set that was observed to hold nothing is therefore recorded by leaving the fact out of the context, and CU-6 governs it, so a rule test naming that fact does not pass and an action gated only on such a test is unavailable in that context. No separate empty recording form exists.
+
+## Round 2 preamble
+
+Round 2 adds the companion view to the sheet. The sheet names what can fire and stays silent about the rest, so an auditor checking the sheet against CU-S3 has to recompute the catalogue by hand. The gaps view answers for the other side. For the same catalogue and the same context it names every action the sheet leaves off and states which of its rule tests did not pass. Both views come out of one evaluation of the rule tests, so each action is judged once and the two views divide the catalogue between them. The gaps view is a surface like the sheet, and it executes nothing and changes no verdict the sheet makes.
+
+The printed form of the gaps view is this. A header line names the harness and the decision point, as the sheet header does. One block follows per unavailable action, sorted by action name. A block opens with a line naming the action and then carries one blocked line per rule test that did not pass, in the order the catalogue entry states its tests. A blocked line names the fact, the test, and the tested value, and then the recorded value the test was checked against, or the words not recorded when the context records no value for that fact. The grammar is this.
+
+```
+gaps <harness> <decision-point>
+gap <action>
+blocked <fact> <test> <value>, recorded <recorded value>
+blocked <fact> <test> <value>, not recorded
+```
+
+## Round 2 obligations
+
+CU-14. A gaps subcommand takes the same catalogue path and the same context path as the sheet subcommand and prints the gaps view for that pair, and the gaps view carries one block for each action the catalogue declares that earns no cue on the sheet for that context, and the blocks stand sorted by action name as the sheet sorts its cues, and every action the catalogue declares appears on exactly one of the two views for a given context and never on both and never on neither, and both views are computed from one shared evaluation of the rule tests, so the two views cannot disagree about an action.
+
+CU-15. A gap block opens with a line that names the action and then carries one blocked line for each rule test of that action that did not pass, in the order the catalogue entry states its tests, and each blocked line names the fact, the test, and the tested value, and then the recorded value the test was checked against when the context records that fact, and the words not recorded when the context records no value for that fact, and a rule test that names a fact the context does not record never passes and always takes the not recorded form, because the missing fact is never assumed under CU-6, and a test that passed is never printed in a gap block, because the block states why the action is unavailable and nothing else, and every gap block carries at least one blocked line, because an action earns a gap block only when at least one of its tests did not pass and CU-3 already refuses an action with no rule test at load.
+
+CU-16. The gaps subcommand exits with code 0 whenever it prints the gaps view, and when no action is unavailable the gaps view is its header line alone and still exits with code 0, as the empty sheet does under CU-9, and a malformed catalogue or a malformed context or a file that cannot be read refuses under the gaps subcommand with the same error line and the same exit code 2 the sheet subcommand gives for the same inputs, and a refusal never surfaces as a traceback and never prints a partial gaps view, and the output of the sheet subcommand is byte identical after this round to what it was before it, for every catalogue and context.
+
+CU-17. The examples in this repo gain the two gaps views for the recorded contexts, committed beside the two sheets in the examples directory under the names ordinary.gaps and restricted.gaps, and the committed gaps views are byte identical to what the tool produces from the committed catalogue and contexts, and the restricted gaps view names ask-human with its human-present test answered in the not recorded form.
