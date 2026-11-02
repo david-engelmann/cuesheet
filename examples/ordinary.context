@@ -1,0 +1,5 @@
+context stagehand after-read
+fact tools = read, edit, search, run, message
+fact human-present = yes
+fact usage-window = inside
+fact last-action = read-file

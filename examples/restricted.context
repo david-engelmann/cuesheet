@@ -1,0 +1,4 @@
+context stagehand quiet-hours
+fact tools = read, search
+fact usage-window = outside
+fact last-action = none
