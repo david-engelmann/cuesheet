@@ -8,7 +8,7 @@ In theatre, the cue sheet is the document that keeps a show alive. Every cue, in
 
 ## Status
 
-Seeded on 2026-10-29. The concept is claimed and the build has not started.
+Setup slice in progress. The build has not started. Closed rounds 0 of 100. The contract is a stub and is not yet met. Part of the impatient programming portfolio, in the Fleet Operations arc.
 
 ## Licence
 
