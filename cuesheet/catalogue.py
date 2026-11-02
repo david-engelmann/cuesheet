@@ -3,6 +3,7 @@
 from dataclasses import dataclass
 
 from .errors import CatalogueError
+from .lines import meaningful_lines
 
 VALUE = "values"
 SET = "set-of"
@@ -38,8 +39,7 @@ class Catalogue:
     actions: dict
 
 
-def _meaningful_lines(text):
-    return [line.strip() for line in text.split("\n") if line.strip()]
+
 
 
 def _value_list(raw, source, what):
@@ -91,7 +91,7 @@ def _finish_action(pending, source):
 
 def parse_catalogue(text, source):
     """Parse one catalogue or raise CatalogueError naming the defect."""
-    lines = _meaningful_lines(text)
+    lines = meaningful_lines(text)
     if not lines:
         raise CatalogueError(f"{source} is malformed, it names no harness")
     head = lines[0].split()

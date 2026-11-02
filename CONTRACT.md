@@ -68,3 +68,5 @@ CU-10. The command line tool takes one catalogue path and one context path, exit
 CU-11. Generating a sheet reads only the catalogue and context files it is handed and changes no state anywhere, and the bytes of both input files are the same after the sheet is generated as before.
 
 CU-12. The examples in this repo are one synthetic catalogue for one harness, two recorded contexts for that harness, and the two sheets those contexts produce, and the committed sheets are byte identical to what the tool produces from the committed catalogue and contexts.
+
+CU-13. Amendment, added by the Round 1 review. The preamble's phrase for a set fact, that it carries any subset of its declared tokens, is read with the context grammar, which records one or more tokens on a fact line. A set that was observed to hold nothing is therefore recorded by leaving the fact out of the context, and CU-6 governs it, so a rule test naming that fact does not pass and an action gated only on such a test is unavailable in that context. No separate empty recording form exists.

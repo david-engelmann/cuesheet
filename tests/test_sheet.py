@@ -13,6 +13,12 @@ fires delta fires text
 fires-in-turn delta turn text
 """
 
+EPSILON = MINI + """action epsilon
+requires window is-not inside
+fires epsilon fires text
+fires-in-turn epsilon turn text
+"""
+
 
 def sheet_names(context_text, catalogue=CATALOGUE):
     context = parse_context(context_text, "c.context", catalogue)
@@ -54,7 +60,7 @@ def test_a_missing_fact_is_not_assumed_from_the_other_tests():
     assert names == []
 
 
-def test_is_not_and_lacks_tests_read_the_recorded_facts():
+def test_lacks_tests_read_the_recorded_facts():
     catalogue = parse_catalogue(DELTA, "delta.catalogue")
     names = sheet_names(
         "context mini p\nfact tools = read\nfact last = none\n",
@@ -66,6 +72,30 @@ def test_is_not_and_lacks_tests_read_the_recorded_facts():
         catalogue=catalogue,
     )
     assert "delta" in names
+
+
+def test_an_is_not_test_lists_the_action_when_the_value_differs():
+    catalogue = parse_catalogue(EPSILON, "epsilon.catalogue")
+    context = parse_context(
+        "context mini p\nfact window = outside\n",
+        "c.context",
+        catalogue,
+    )
+    cues = build_sheet(catalogue, context)
+    assert [cue.name for cue in cues] == ["epsilon"]
+    assert cues[0].evidence == (
+        "evidence window is-not inside, recorded outside",
+    )
+
+
+def test_an_is_not_test_excludes_the_action_when_the_value_matches():
+    catalogue = parse_catalogue(EPSILON, "epsilon.catalogue")
+    names = sheet_names(
+        "context mini p\nfact window = inside\n",
+        catalogue=catalogue,
+    )
+    assert "epsilon" not in names
+    assert names == []
 
 
 def test_a_cue_carries_its_fires_text_and_ordered_evidence():

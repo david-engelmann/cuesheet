@@ -4,6 +4,7 @@ from dataclasses import dataclass
 
 from .catalogue import SET, VALUE
 from .errors import ContextError
+from .lines import meaningful_lines
 
 
 @dataclass(frozen=True)
@@ -15,7 +16,7 @@ class Context:
 
 def parse_context(text, source, catalogue):
     """Parse one context against a catalogue or raise ContextError."""
-    lines = [line.strip() for line in text.split("\n") if line.strip()]
+    lines = meaningful_lines(text)
     if not lines:
         raise ContextError(f"{source} is malformed, it names no harness")
     head = lines[0].split()

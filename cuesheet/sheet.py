@@ -11,7 +11,7 @@ class Cue:
     evidence: tuple
 
 
-def _render_recorded(fact, recorded):
+def _render_recorded(recorded):
     if isinstance(recorded, frozenset):
         return ", ".join(sorted(recorded))
     return recorded
@@ -24,7 +24,9 @@ def _test_passes(rule_test, recorded):
         return recorded != rule_test.value
     if rule_test.test == "has":
         return rule_test.value in recorded
-    return rule_test.value not in recorded
+    if rule_test.test == "lacks":
+        return rule_test.value not in recorded
+    raise ValueError(f"unknown rule test kind {rule_test.test}")
 
 
 def _evaluate(action, context):
@@ -39,7 +41,7 @@ def _evaluate(action, context):
         evidence.append(
             f"evidence {rule_test.fact} {rule_test.test} "
             f"{rule_test.value}, recorded "
-            f"{_render_recorded(rule_test.fact, recorded)}"
+            f"{_render_recorded(recorded)}"
         )
     return tuple(evidence)
 
