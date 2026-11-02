@@ -1,0 +1,9 @@
+sheet stagehand quiet-hours
+cue read-file
+fires a file the run needs is not yet in context
+fires-in-turn the file contents in context for the next decision
+evidence tools has read, recorded read, search
+cue search-corpus
+fires the run needs evidence it has not read yet
+fires-in-turn the passages the next decision can cite
+evidence tools has search, recorded read, search

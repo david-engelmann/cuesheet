@@ -1,0 +1,27 @@
+sheet stagehand after-read
+cue ask-human
+fires a person is standing by and the decision is theirs to make
+fires-in-turn an answer the run can act on
+evidence human-present is yes, recorded yes
+cue edit-file
+fires the file in context is the one the decision just made
+fires-in-turn a changed file the run can test or describe
+evidence tools has edit, recorded edit, message, read, run, search
+evidence last-action is read-file, recorded read-file
+cue read-file
+fires a file the run needs is not yet in context
+fires-in-turn the file contents in context for the next decision
+evidence tools has read, recorded edit, message, read, run, search
+cue run-command
+fires a check or build step is the next thing the decision needs
+fires-in-turn the command output the run must react to
+evidence tools has run, recorded edit, message, read, run, search
+evidence usage-window is inside, recorded inside
+cue search-corpus
+fires the run needs evidence it has not read yet
+fires-in-turn the passages the next decision can cite
+evidence tools has search, recorded edit, message, read, run, search
+cue send-update
+fires the decision changed what someone waiting should know
+fires-in-turn a message delivered to the person waiting
+evidence tools has message, recorded edit, message, read, run, search

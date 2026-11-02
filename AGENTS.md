@@ -59,3 +59,5 @@ This repo is cuesheet. Its contract lives in CONTRACT.md and that file is the sp
 Boundary. Cuesheet lists the actions an agent could take right now, in context, before the cues fire. It is a surface and never an actor, and it never executes a cue it lists.
 
 First slice. The in-context action surface for one harness at one decision point, listing every action, tool, and command available at that point with what fires each one.
+
+Identity exception. The maintainer identity in the required Signed-off-by trailer is the repo owner's public sign-off identity. It is permitted in commit metadata and in that instruction, and the sanitization rule does not apply to it.

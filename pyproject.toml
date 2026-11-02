@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cuesheet"
+version = "0.1.0"
+description = "Lists the actions available to an agent at one decision point, in context, and never executes one"
+requires-python = ">=3.11"
+dependencies = []
+
+[tool.setuptools]
+packages = ["cuesheet"]

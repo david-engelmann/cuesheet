@@ -1,0 +1,36 @@
+catalogue stagehand
+fact tools set-of read, edit, search, run, spawn, message
+fact human-present values yes, no
+fact usage-window values inside, outside
+fact last-action values none, read-file, edit-file, search, run-command, ask-human, spawn-helper, send-update
+action read-file
+requires tools has read
+fires a file the run needs is not yet in context
+fires-in-turn the file contents in context for the next decision
+action edit-file
+requires tools has edit
+requires last-action is read-file
+fires the file in context is the one the decision just made
+fires-in-turn a changed file the run can test or describe
+action search-corpus
+requires tools has search
+fires the run needs evidence it has not read yet
+fires-in-turn the passages the next decision can cite
+action run-command
+requires tools has run
+requires usage-window is inside
+fires a check or build step is the next thing the decision needs
+fires-in-turn the command output the run must react to
+action ask-human
+requires human-present is yes
+fires a person is standing by and the decision is theirs to make
+fires-in-turn an answer the run can act on
+action spawn-helper
+requires tools has spawn
+requires usage-window is inside
+fires the work splits into pieces a helper can carry
+fires-in-turn helper runs working beside this one
+action send-update
+requires tools has message
+fires the decision changed what someone waiting should know
+fires-in-turn a message delivered to the person waiting
