@@ -114,3 +114,15 @@ def test_a_requires_line_before_any_action_is_refused():
     text = MINI.replace("action alpha", "requires tools has read\naction alpha")
     with pytest.raises(CatalogueError):
         parse_catalogue(text, "bad.catalogue")
+
+
+def test_fires_text_after_a_tab_separator_is_kept_whole():
+    text = MINI.replace("fires alpha fires text", "fires\talpha fires text")
+    catalogue = parse_catalogue(text, "tab.catalogue")
+    assert catalogue.actions["alpha"].fires == "alpha fires text"
+
+
+def test_a_fires_line_with_no_text_is_refused():
+    text = MINI.replace("fires alpha fires text\n", "fires\n")
+    with pytest.raises(CatalogueError):
+        parse_catalogue(text, "bad.catalogue")

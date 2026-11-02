@@ -137,24 +137,24 @@ def parse_catalogue(text, source):
             _, fact_name, test, value = parts
             _check_test(facts.get(fact_name), test, value, source)
             pending[1].append(RuleTest(fact_name, test, value))
-        elif parts[0] == "fires" and pending is not None and len(line) > 6:
+        elif parts[0] == "fires" and pending is not None and len(parts) > 1:
             if pending[2] is not None:
                 raise CatalogueError(
                     f"{source} is malformed, the action {pending[0]} "
                     "carries two fires lines"
                 )
-            pending[2] = line[len("fires "):]
+            pending[2] = line.split(None, 1)[1]
         elif (
             parts[0] == "fires-in-turn"
             and pending is not None
-            and len(line) > 14
+            and len(parts) > 1
         ):
             if pending[3] is not None:
                 raise CatalogueError(
                     f"{source} is malformed, the action {pending[0]} "
                     "carries two fires-in-turn lines"
                 )
-            pending[3] = line[len("fires-in-turn "):]
+            pending[3] = line.split(None, 1)[1]
         else:
             raise CatalogueError(
                 f"{source} is malformed, the line {line} matches no "
