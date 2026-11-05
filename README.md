@@ -8,7 +8,7 @@ In theatre, the cue sheet is the document that keeps a show alive. Every cue, in
 
 ## Status
 
-Round 3 landed in PR 6 and is recorded closed here. The set reading of the lists and the rules of the format is in place under contract obligations CU-1 to CU-19, so a repeated option in a fact declaration, a repeated token in a recorded set, and a repeated rule test inside one action each read as the item written once, and the sheet and the gaps view read the same recorded catalogue and context as before. Closed rounds 3 of 100. Part of the impatient programming portfolio, in the Fleet Operations arc.
+Round 3 landed in PR 6 and is recorded closed here. The set reading of the lists and the rules of the format is in place under contract obligations CU-1 to CU-19, so a repeated option in a fact declaration, a repeated token in a recorded set, and a repeated rule test inside one action each read as the item written once, and the sheet and the gaps view read the same recorded catalogue and context as before. Round 4 ports the implementation to Rust under the same contract, removing the Python tree and making the cargo suite the primary gate, and it changes no behaviour the earlier rounds landed. Closed rounds 3 of 100. Part of the impatient programming portfolio, in the Fleet Operations arc.
 
 ## Licence
 

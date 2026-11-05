@@ -1,0 +1,15 @@
+[package]
+name = "cuesheet"
+version = "0.1.0"
+edition = "2024"
+description = "Lists the actions available to an agent at one decision point, in context, and never executes one"
+license = "MIT"
+
+[dependencies]
+anyhow = "1"
+clap = { version = "4", features = ["derive"] }
+thiserror = "2"
+
+[dev-dependencies]
+serde_json = "1"
+sha2 = "0.10"
