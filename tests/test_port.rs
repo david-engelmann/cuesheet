@@ -596,6 +596,11 @@ fn no_python_files_stand_in_the_tree() {
                 if name == ".git" || name == "target" {
                     continue;
                 }
+                if dir == root
+                    && matches!(name.as_str(), ".venv" | "venv" | "node_modules" | ".tox")
+                {
+                    continue;
+                }
                 walk(&path, root, bad);
             } else if name.ends_with(".py") || name == "pyproject.toml" || name == "conftest.py" {
                 bad.push(
