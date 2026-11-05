@@ -1,0 +1,1188 @@
+{
+ "cases": [
+  {
+   "name": "sheet-mini-full",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet",
+    "c.catalogue",
+    "c.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "sheet mini p\ncue alpha\nfires alpha fires text\nfires-in-turn alpha turn text\nevidence tools has read, recorded edit, read\ncue beta\nfires beta fires text\nfires-in-turn beta turn text\nevidence tools has edit, recorded edit, read\nevidence window is inside, recorded inside\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "gaps-mini-partial",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "gaps",
+    "c.catalogue",
+    "partial.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "gaps mini p\ngap beta\nblocked tools has edit, recorded read\nblocked window is inside, recorded outside\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "sheet-mini-empty",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet",
+    "c.catalogue",
+    "empty.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "sheet mini p\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "gaps-mini-full",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "gaps",
+    "c.catalogue",
+    "c.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "gaps mini p\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "sheet-bad-catalogue",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet",
+    "bad.catalogue",
+    "c.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: bad.catalogue is malformed, the line wander off matches no catalogue line form\n"
+   }
+  },
+  {
+   "name": "gaps-bad-catalogue",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "gaps",
+    "bad.catalogue",
+    "c.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: bad.catalogue is malformed, the line wander off matches no catalogue line form\n"
+   }
+  },
+  {
+   "name": "sheet-bad-context",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet",
+    "c.catalogue",
+    "bad.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: bad.context is malformed, the first line does not name the harness and the decision point\n"
+   }
+  },
+  {
+   "name": "sheet-missing-catalogue",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet",
+    "absent.catalogue",
+    "c.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: the catalogue file absent.catalogue cannot be read\n"
+   }
+  },
+  {
+   "name": "gaps-missing-context",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "gaps",
+    "c.catalogue",
+    "absent.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: the context file absent.context cannot be read\n"
+   }
+  },
+  {
+   "name": "sheet-stagehand-ordinary",
+   "source": "oracle",
+   "setup": {
+    "stagehand.catalogue": "catalogue stagehand\nfact tools set-of read, edit, search, run, spawn, message\nfact human-present values yes, no\nfact usage-window values inside, outside\nfact last-action values none, read-file, edit-file, search, run-command, ask-human, spawn-helper, send-update\naction read-file\nrequires tools has read\nfires a file the run needs is not yet in context\nfires-in-turn the file contents in context for the next decision\naction edit-file\nrequires tools has edit\nrequires last-action is read-file\nfires the file in context is the one the decision just made\nfires-in-turn a changed file the run can test or describe\naction search-corpus\nrequires tools has search\nfires the run needs evidence it has not read yet\nfires-in-turn the passages the next decision can cite\naction run-command\nrequires tools has run\nrequires usage-window is inside\nfires a check or build step is the next thing the decision needs\nfires-in-turn the command output the run must react to\naction ask-human\nrequires human-present is yes\nfires a person is standing by and the decision is theirs to make\nfires-in-turn an answer the run can act on\naction spawn-helper\nrequires tools has spawn\nrequires usage-window is inside\nfires the work splits into pieces a helper can carry\nfires-in-turn helper runs working beside this one\naction send-update\nrequires tools has message\nfires the decision changed what someone waiting should know\nfires-in-turn a message delivered to the person waiting\n",
+    "ordinary.context": "context stagehand after-read\nfact tools = read, edit, search, run, message\nfact human-present = yes\nfact usage-window = inside\nfact last-action = read-file\n",
+    "restricted.context": "context stagehand quiet-hours\nfact tools = read, search\nfact usage-window = outside\nfact last-action = none\n"
+   },
+   "argv": [
+    "sheet",
+    "stagehand.catalogue",
+    "ordinary.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "sheet stagehand after-read\ncue ask-human\nfires a person is standing by and the decision is theirs to make\nfires-in-turn an answer the run can act on\nevidence human-present is yes, recorded yes\ncue edit-file\nfires the file in context is the one the decision just made\nfires-in-turn a changed file the run can test or describe\nevidence tools has edit, recorded edit, message, read, run, search\nevidence last-action is read-file, recorded read-file\ncue read-file\nfires a file the run needs is not yet in context\nfires-in-turn the file contents in context for the next decision\nevidence tools has read, recorded edit, message, read, run, search\ncue run-command\nfires a check or build step is the next thing the decision needs\nfires-in-turn the command output the run must react to\nevidence tools has run, recorded edit, message, read, run, search\nevidence usage-window is inside, recorded inside\ncue search-corpus\nfires the run needs evidence it has not read yet\nfires-in-turn the passages the next decision can cite\nevidence tools has search, recorded edit, message, read, run, search\ncue send-update\nfires the decision changed what someone waiting should know\nfires-in-turn a message delivered to the person waiting\nevidence tools has message, recorded edit, message, read, run, search\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "gaps-stagehand-ordinary",
+   "source": "oracle",
+   "setup": {
+    "stagehand.catalogue": "catalogue stagehand\nfact tools set-of read, edit, search, run, spawn, message\nfact human-present values yes, no\nfact usage-window values inside, outside\nfact last-action values none, read-file, edit-file, search, run-command, ask-human, spawn-helper, send-update\naction read-file\nrequires tools has read\nfires a file the run needs is not yet in context\nfires-in-turn the file contents in context for the next decision\naction edit-file\nrequires tools has edit\nrequires last-action is read-file\nfires the file in context is the one the decision just made\nfires-in-turn a changed file the run can test or describe\naction search-corpus\nrequires tools has search\nfires the run needs evidence it has not read yet\nfires-in-turn the passages the next decision can cite\naction run-command\nrequires tools has run\nrequires usage-window is inside\nfires a check or build step is the next thing the decision needs\nfires-in-turn the command output the run must react to\naction ask-human\nrequires human-present is yes\nfires a person is standing by and the decision is theirs to make\nfires-in-turn an answer the run can act on\naction spawn-helper\nrequires tools has spawn\nrequires usage-window is inside\nfires the work splits into pieces a helper can carry\nfires-in-turn helper runs working beside this one\naction send-update\nrequires tools has message\nfires the decision changed what someone waiting should know\nfires-in-turn a message delivered to the person waiting\n",
+    "ordinary.context": "context stagehand after-read\nfact tools = read, edit, search, run, message\nfact human-present = yes\nfact usage-window = inside\nfact last-action = read-file\n",
+    "restricted.context": "context stagehand quiet-hours\nfact tools = read, search\nfact usage-window = outside\nfact last-action = none\n"
+   },
+   "argv": [
+    "gaps",
+    "stagehand.catalogue",
+    "ordinary.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "gaps stagehand after-read\ngap spawn-helper\nblocked tools has spawn, recorded edit, message, read, run, search\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "sheet-stagehand-restricted",
+   "source": "oracle",
+   "setup": {
+    "stagehand.catalogue": "catalogue stagehand\nfact tools set-of read, edit, search, run, spawn, message\nfact human-present values yes, no\nfact usage-window values inside, outside\nfact last-action values none, read-file, edit-file, search, run-command, ask-human, spawn-helper, send-update\naction read-file\nrequires tools has read\nfires a file the run needs is not yet in context\nfires-in-turn the file contents in context for the next decision\naction edit-file\nrequires tools has edit\nrequires last-action is read-file\nfires the file in context is the one the decision just made\nfires-in-turn a changed file the run can test or describe\naction search-corpus\nrequires tools has search\nfires the run needs evidence it has not read yet\nfires-in-turn the passages the next decision can cite\naction run-command\nrequires tools has run\nrequires usage-window is inside\nfires a check or build step is the next thing the decision needs\nfires-in-turn the command output the run must react to\naction ask-human\nrequires human-present is yes\nfires a person is standing by and the decision is theirs to make\nfires-in-turn an answer the run can act on\naction spawn-helper\nrequires tools has spawn\nrequires usage-window is inside\nfires the work splits into pieces a helper can carry\nfires-in-turn helper runs working beside this one\naction send-update\nrequires tools has message\nfires the decision changed what someone waiting should know\nfires-in-turn a message delivered to the person waiting\n",
+    "ordinary.context": "context stagehand after-read\nfact tools = read, edit, search, run, message\nfact human-present = yes\nfact usage-window = inside\nfact last-action = read-file\n",
+    "restricted.context": "context stagehand quiet-hours\nfact tools = read, search\nfact usage-window = outside\nfact last-action = none\n"
+   },
+   "argv": [
+    "sheet",
+    "stagehand.catalogue",
+    "restricted.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "sheet stagehand quiet-hours\ncue read-file\nfires a file the run needs is not yet in context\nfires-in-turn the file contents in context for the next decision\nevidence tools has read, recorded read, search\ncue search-corpus\nfires the run needs evidence it has not read yet\nfires-in-turn the passages the next decision can cite\nevidence tools has search, recorded read, search\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "gaps-stagehand-restricted",
+   "source": "oracle",
+   "setup": {
+    "stagehand.catalogue": "catalogue stagehand\nfact tools set-of read, edit, search, run, spawn, message\nfact human-present values yes, no\nfact usage-window values inside, outside\nfact last-action values none, read-file, edit-file, search, run-command, ask-human, spawn-helper, send-update\naction read-file\nrequires tools has read\nfires a file the run needs is not yet in context\nfires-in-turn the file contents in context for the next decision\naction edit-file\nrequires tools has edit\nrequires last-action is read-file\nfires the file in context is the one the decision just made\nfires-in-turn a changed file the run can test or describe\naction search-corpus\nrequires tools has search\nfires the run needs evidence it has not read yet\nfires-in-turn the passages the next decision can cite\naction run-command\nrequires tools has run\nrequires usage-window is inside\nfires a check or build step is the next thing the decision needs\nfires-in-turn the command output the run must react to\naction ask-human\nrequires human-present is yes\nfires a person is standing by and the decision is theirs to make\nfires-in-turn an answer the run can act on\naction spawn-helper\nrequires tools has spawn\nrequires usage-window is inside\nfires the work splits into pieces a helper can carry\nfires-in-turn helper runs working beside this one\naction send-update\nrequires tools has message\nfires the decision changed what someone waiting should know\nfires-in-turn a message delivered to the person waiting\n",
+    "ordinary.context": "context stagehand after-read\nfact tools = read, edit, search, run, message\nfact human-present = yes\nfact usage-window = inside\nfact last-action = read-file\n",
+    "restricted.context": "context stagehand quiet-hours\nfact tools = read, search\nfact usage-window = outside\nfact last-action = none\n"
+   },
+   "argv": [
+    "gaps",
+    "stagehand.catalogue",
+    "restricted.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "gaps stagehand quiet-hours\ngap ask-human\nblocked human-present is yes, not recorded\ngap edit-file\nblocked tools has edit, recorded read, search\nblocked last-action is read-file, recorded none\ngap run-command\nblocked tools has run, recorded read, search\nblocked usage-window is inside, recorded outside\ngap send-update\nblocked tools has message, recorded read, search\ngap spawn-helper\nblocked tools has spawn, recorded read, search\nblocked usage-window is inside, recorded outside\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "sheet-dash-catalogue",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet",
+    "-",
+    "c.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: the catalogue file - cannot be read\n"
+   }
+  },
+  {
+   "name": "sheet-negative-catalogue",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet",
+    "-1",
+    "c.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: the catalogue file -1 cannot be read\n"
+   }
+  },
+  {
+   "name": "sheet-negative-decimal",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet",
+    "-1.5",
+    "c.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: the catalogue file -1.5 cannot be read\n"
+   }
+  },
+  {
+   "name": "sheet-negative-arabic-digits",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet",
+    "-١٢",
+    "c.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: the catalogue file -١٢ cannot be read\n"
+   }
+  },
+  {
+   "name": "sheet-separator-middle",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet",
+    "c.catalogue",
+    "--",
+    "c.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "sheet mini p\ncue alpha\nfires alpha fires text\nfires-in-turn alpha turn text\nevidence tools has read, recorded edit, read\ncue beta\nfires beta fires text\nfires-in-turn beta turn text\nevidence tools has edit, recorded edit, read\nevidence window is inside, recorded inside\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "sheet-separator-lead",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet",
+    "--",
+    "c.catalogue",
+    "c.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "sheet mini p\ncue alpha\nfires alpha fires text\nfires-in-turn alpha turn text\nevidence tools has read, recorded edit, read\ncue beta\nfires beta fires text\nfires-in-turn beta turn text\nevidence tools has edit, recorded edit, read\nevidence window is inside, recorded inside\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "sheet-separator-trail",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet",
+    "c.catalogue",
+    "c.context",
+    "--"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "sheet mini p\ncue alpha\nfires alpha fires text\nfires-in-turn alpha turn text\nevidence tools has read, recorded edit, read\ncue beta\nfires beta fires text\nfires-in-turn beta turn text\nevidence tools has edit, recorded edit, read\nevidence window is inside, recorded inside\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "gaps-separator-trail",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "gaps",
+    "c.catalogue",
+    "c.context",
+    "--"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "gaps mini p\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "sheet-separator-as-catalogue",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet",
+    "--",
+    "--",
+    "c.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: the catalogue file -- cannot be read\n"
+   }
+  },
+  {
+   "name": "sheet-list-trailing",
+   "source": "port",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet",
+    "c.catalogue",
+    "--",
+    "--"
+   ],
+   "expect": {
+    "code": 1,
+    "stdout": "",
+    "stderr": "cuesheet: an argument arrived as a list where a single path was expected\n"
+   }
+  },
+  {
+   "name": "sheet-list-middle",
+   "source": "port",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet",
+    "--",
+    "c.catalogue",
+    "--"
+   ],
+   "expect": {
+    "code": 1,
+    "stdout": "",
+    "stderr": "cuesheet: an argument arrived as a list where a single path was expected\n"
+   }
+  },
+  {
+   "name": "gaps-list-trailing",
+   "source": "port",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "gaps",
+    "c.catalogue",
+    "--",
+    "--"
+   ],
+   "expect": {
+    "code": 1,
+    "stdout": "",
+    "stderr": "cuesheet: an argument arrived as a list where a single path was expected\n"
+   }
+  },
+  {
+   "name": "no-arguments",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "Lists the actions available to an agent at one decision point, in context. Executes nothing.\n\nUsage: cuesheet <COMMAND>\n\nCommands:\n  sheet  \n  gaps   \n\nOptions:\n  -h, --help  Print help\n"
+   }
+  },
+  {
+   "name": "help-root",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "--help"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "Lists the actions available to an agent at one decision point, in context. Executes nothing.\n\nUsage: cuesheet <COMMAND>\n\nCommands:\n  sheet  \n  gaps   \n\nOptions:\n  -h, --help  Print help\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "help-root-short",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "-h"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "Lists the actions available to an agent at one decision point, in context. Executes nothing.\n\nUsage: cuesheet <COMMAND>\n\nCommands:\n  sheet  \n  gaps   \n\nOptions:\n  -h, --help  Print help\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "help-abbreviated",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "--he"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "Lists the actions available to an agent at one decision point, in context. Executes nothing.\n\nUsage: cuesheet <COMMAND>\n\nCommands:\n  sheet  \n  gaps   \n\nOptions:\n  -h, --help  Print help\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "help-sheet",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet",
+    "--help"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "Usage: cuesheet sheet <CATALOGUE> <CONTEXT>\n\nArguments:\n  <CATALOGUE>  \n  <CONTEXT>    \n\nOptions:\n  -h, --help  Print help\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "help-gaps-short",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "gaps",
+    "-h"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "Usage: cuesheet gaps <CATALOGUE> <CONTEXT>\n\nArguments:\n  <CATALOGUE>  \n  <CONTEXT>    \n\nOptions:\n  -h, --help  Print help\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "help-after-bogus-at-root",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "--bogus",
+    "--help"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "Lists the actions available to an agent at one decision point, in context. Executes nothing.\n\nUsage: cuesheet <COMMAND>\n\nCommands:\n  sheet  \n  gaps   \n\nOptions:\n  -h, --help  Print help\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "help-after-bogus-in-sheet",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet",
+    "--bogus",
+    "--help"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "Usage: cuesheet sheet <CATALOGUE> <CONTEXT>\n\nArguments:\n  <CATALOGUE>  \n  <CONTEXT>    \n\nOptions:\n  -h, --help  Print help\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "help-after-complete-invocation",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet",
+    "c.catalogue",
+    "c.context",
+    "--help"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "Usage: cuesheet sheet <CATALOGUE> <CONTEXT>\n\nArguments:\n  <CATALOGUE>  \n  <CONTEXT>    \n\nOptions:\n  -h, --help  Print help\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "unknown-flag-alone",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "--bogus"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: unexpected argument '--bogus' found\n\nUsage: cuesheet <COMMAND>\n\nFor more information, try '--help'.\n"
+   }
+  },
+  {
+   "name": "sheet-without-paths",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: the following required arguments were not provided:\n  <CATALOGUE>\n  <CONTEXT>\n\nUsage: cuesheet sheet <CATALOGUE> <CONTEXT>\n\nFor more information, try '--help'.\n"
+   }
+  },
+  {
+   "name": "sheet-without-context",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet",
+    "c.catalogue"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: the following required arguments were not provided:\n  <CONTEXT>\n\nUsage: cuesheet sheet <CATALOGUE> <CONTEXT>\n\nFor more information, try '--help'.\n"
+   }
+  },
+  {
+   "name": "extra-positional",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet",
+    "c.catalogue",
+    "c.context",
+    "extra"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: unexpected argument 'extra' found\n\nUsage: cuesheet sheet <CATALOGUE> <CONTEXT>\n\nFor more information, try '--help'.\n"
+   }
+  },
+  {
+   "name": "unknown-after-complete",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet",
+    "c.catalogue",
+    "c.context",
+    "--bogus"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: unexpected argument '--bogus' found\n\n  tip: to pass '--bogus' as a value, use '-- --bogus'\n\nUsage: cuesheet sheet <CATALOGUE> <CONTEXT>\n\nFor more information, try '--help'.\n"
+   }
+  },
+  {
+   "name": "invalid-subcommand",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "bogus"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: unrecognized subcommand 'bogus'\n\nUsage: cuesheet <COMMAND>\n\nFor more information, try '--help'.\n"
+   }
+  },
+  {
+   "name": "invalid-subcommand-case",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "Sheet"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: unrecognized subcommand 'Sheet'\n\n  tip: a similar subcommand exists: 'sheet'\n\nUsage: cuesheet <COMMAND>\n\nFor more information, try '--help'.\n"
+   }
+  },
+  {
+   "name": "invalid-subcommand-prefix",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sh"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: unrecognized subcommand 'sh'\n\n  tip: a similar subcommand exists: 'sheet'\n\nUsage: cuesheet <COMMAND>\n\nFor more information, try '--help'.\n"
+   }
+  },
+  {
+   "name": "attached-help-at-root",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "--help=x"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: unexpected value 'x' for '--help' found; no more were expected\n\nUsage: cuesheet --help <COMMAND>\n\nFor more information, try '--help'.\n"
+   }
+  },
+  {
+   "name": "attached-help-in-sheet",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet",
+    "-h=x",
+    "c.catalogue",
+    "c.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: unexpected value 'x' for '--help' found; no more were expected\n\nUsage: cuesheet sheet --help <CATALOGUE> <CONTEXT>\n\nFor more information, try '--help'.\n"
+   }
+  },
+  {
+   "name": "attached-help-empty",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet",
+    "--help=",
+    "c.catalogue",
+    "c.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: unexpected value '' for '--help' found; no more were expected\n\nUsage: cuesheet sheet --help <CATALOGUE> <CONTEXT>\n\nFor more information, try '--help'.\n"
+   }
+  },
+  {
+   "name": "cluster-help-refusal",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet",
+    "-hh-v",
+    "c.catalogue",
+    "c.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: unexpected value '-v' for '--help' found; no more were expected\n\nUsage: cuesheet sheet --help <CATALOGUE> <CONTEXT>\n\nFor more information, try '--help'.\n"
+   }
+  },
+  {
+   "name": "cluster-help-fires",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet",
+    "-hx",
+    "c.catalogue",
+    "c.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "Usage: cuesheet sheet <CATALOGUE> <CONTEXT>\n\nArguments:\n  <CATALOGUE>  \n  <CONTEXT>    \n\nOptions:\n  -h, --help  Print help\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "cluster-of-h",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "-hh"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "Lists the actions available to an agent at one decision point, in context. Executes nothing.\n\nUsage: cuesheet <COMMAND>\n\nCommands:\n  sheet  \n  gaps   \n\nOptions:\n  -h, --help  Print help\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "version-at-root",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "--version"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: unexpected argument '--version' found\n\nUsage: cuesheet <COMMAND>\n\nFor more information, try '--help'.\n"
+   }
+  },
+  {
+   "name": "version-in-sheet",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet",
+    "--version",
+    "c.catalogue",
+    "c.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: unexpected argument '--version' found\n\n  tip: to pass '--version' as a value, use '-- --version'\n\nUsage: cuesheet sheet <CATALOGUE> <CONTEXT>\n\nFor more information, try '--help'.\n"
+   }
+  },
+  {
+   "name": "separator-first",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "--",
+    "sheet",
+    "c.catalogue",
+    "c.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: unexpected argument 'sheet' found\n\n  tip: subcommand 'sheet' exists; to use it, remove the '--' before it\n\nUsage: cuesheet <COMMAND>\n\nFor more information, try '--help'.\n"
+   }
+  },
+  {
+   "name": "sheet-separator-stands-for-context",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet",
+    "c.catalogue",
+    "--"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: the following required arguments were not provided:\n  <CONTEXT>\n\nUsage: cuesheet sheet <CATALOGUE> <CONTEXT>\n\nFor more information, try '--help'.\n"
+   }
+  },
+  {
+   "name": "sheet-separator-alone",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet",
+    "--"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: the following required arguments were not provided:\n  <CATALOGUE>\n  <CONTEXT>\n\nUsage: cuesheet sheet <CATALOGUE> <CONTEXT>\n\nFor more information, try '--help'.\n"
+   }
+  },
+  {
+   "name": "unknown-short-before-paths",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet",
+    "-x",
+    "c.catalogue",
+    "c.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: unexpected argument '-x' found\n\n  tip: to pass '-x' as a value, use '-- -x'\n\nUsage: cuesheet sheet <CATALOGUE> <CONTEXT>\n\nFor more information, try '--help'.\n"
+   }
+  },
+  {
+   "name": "help-token-with-space",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet",
+    "-h x"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "Usage: cuesheet sheet <CATALOGUE> <CONTEXT>\n\nArguments:\n  <CATALOGUE>  \n  <CONTEXT>    \n\nOptions:\n  -h, --help  Print help\n",
+    "stderr": ""
+   }
+  }
+ ]
+}
