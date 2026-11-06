@@ -42,7 +42,7 @@ use cuesheet::sheet::{build_gaps, build_sheet, format_gaps, format_sheet};
 #[derive(Parser)]
 #[command(
     name = "cuesheet",
-    about = "Lists the actions available to an agent at one decision point, in context. Executes nothing.",
+    about = "Lists the actions available to an agent at one decision point, in context, and never executes one",
     disable_version_flag = true,
     disable_help_subcommand = true
 )]

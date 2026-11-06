@@ -561,7 +561,7 @@
    "expect": {
     "code": 2,
     "stdout": "",
-    "stderr": "Lists the actions available to an agent at one decision point, in context. Executes nothing.\n\nUsage: cuesheet <COMMAND>\n\nCommands:\n  sheet      \n  gaps       \n  catalogue  \n\nOptions:\n  -h, --help  Print help\n"
+    "stderr": "Lists the actions available to an agent at one decision point, in context, and never executes one\n\nUsage: cuesheet <COMMAND>\n\nCommands:\n  sheet      \n  gaps       \n  catalogue  \n\nOptions:\n  -h, --help  Print help\n"
    }
   },
   {
@@ -580,7 +580,7 @@
    ],
    "expect": {
     "code": 0,
-    "stdout": "Lists the actions available to an agent at one decision point, in context. Executes nothing.\n\nUsage: cuesheet <COMMAND>\n\nCommands:\n  sheet      \n  gaps       \n  catalogue  \n\nOptions:\n  -h, --help  Print help\n",
+    "stdout": "Lists the actions available to an agent at one decision point, in context, and never executes one\n\nUsage: cuesheet <COMMAND>\n\nCommands:\n  sheet      \n  gaps       \n  catalogue  \n\nOptions:\n  -h, --help  Print help\n",
     "stderr": ""
    }
   },
@@ -600,7 +600,7 @@
    ],
    "expect": {
     "code": 0,
-    "stdout": "Lists the actions available to an agent at one decision point, in context. Executes nothing.\n\nUsage: cuesheet <COMMAND>\n\nCommands:\n  sheet      \n  gaps       \n  catalogue  \n\nOptions:\n  -h, --help  Print help\n",
+    "stdout": "Lists the actions available to an agent at one decision point, in context, and never executes one\n\nUsage: cuesheet <COMMAND>\n\nCommands:\n  sheet      \n  gaps       \n  catalogue  \n\nOptions:\n  -h, --help  Print help\n",
     "stderr": ""
    }
   },
@@ -620,7 +620,7 @@
    ],
    "expect": {
     "code": 0,
-    "stdout": "Lists the actions available to an agent at one decision point, in context. Executes nothing.\n\nUsage: cuesheet <COMMAND>\n\nCommands:\n  sheet      \n  gaps       \n  catalogue  \n\nOptions:\n  -h, --help  Print help\n",
+    "stdout": "Lists the actions available to an agent at one decision point, in context, and never executes one\n\nUsage: cuesheet <COMMAND>\n\nCommands:\n  sheet      \n  gaps       \n  catalogue  \n\nOptions:\n  -h, --help  Print help\n",
     "stderr": ""
    }
   },
@@ -683,7 +683,7 @@
    ],
    "expect": {
     "code": 0,
-    "stdout": "Lists the actions available to an agent at one decision point, in context. Executes nothing.\n\nUsage: cuesheet <COMMAND>\n\nCommands:\n  sheet      \n  gaps       \n  catalogue  \n\nOptions:\n  -h, --help  Print help\n",
+    "stdout": "Lists the actions available to an agent at one decision point, in context, and never executes one\n\nUsage: cuesheet <COMMAND>\n\nCommands:\n  sheet      \n  gaps       \n  catalogue  \n\nOptions:\n  -h, --help  Print help\n",
     "stderr": ""
    }
   },
@@ -1027,7 +1027,7 @@
    ],
    "expect": {
     "code": 0,
-    "stdout": "Lists the actions available to an agent at one decision point, in context. Executes nothing.\n\nUsage: cuesheet <COMMAND>\n\nCommands:\n  sheet      \n  gaps       \n  catalogue  \n\nOptions:\n  -h, --help  Print help\n",
+    "stdout": "Lists the actions available to an agent at one decision point, in context, and never executes one\n\nUsage: cuesheet <COMMAND>\n\nCommands:\n  sheet      \n  gaps       \n  catalogue  \n\nOptions:\n  -h, --help  Print help\n",
     "stderr": ""
    }
   },
@@ -1181,6 +1181,47 @@
    "expect": {
     "code": 0,
     "stdout": "Usage: cuesheet sheet <CATALOGUE> <CONTEXT>\n\nArguments:\n  <CATALOGUE>  \n  <CONTEXT>    \n\nOptions:\n  -h, --help  Print help\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "near-miss-catalogue-tip",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "catalo"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: unrecognized subcommand 'catalo'\n\n  tip: a similar subcommand exists: 'catalogue'\n\nUsage: cuesheet <COMMAND>\n\nFor more information, try '--help'.\n"
+   }
+  },
+  {
+   "name": "help-catalogue",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "catalogue",
+    "--help"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "Usage: cuesheet catalogue <CATALOGUE>\n\nArguments:\n  <CATALOGUE>  \n\nOptions:\n  -h, --help  Print help\n",
     "stderr": ""
    }
   }

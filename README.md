@@ -51,7 +51,7 @@ The binary lands at target/debug/cuesheet, and the test suite runs with `cargo t
 
 ## Quickstart
 
-From the repository root, with the committed examples:
+From the repository root, with the committed examples.
 
 ```sh
 ./target/debug/cuesheet sheet examples/stagehand.catalogue examples/ordinary.context
