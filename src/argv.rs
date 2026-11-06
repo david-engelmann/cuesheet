@@ -2,7 +2,8 @@
 //! walks them the way the Python parser's own scan walked
 //! them, CPython's argparse as the oracle's cli builds it: a
 //! root parser whose one positional is the subcommand, and
-//! one subparser per command with two positional paths. The
+//! one subparser per command, with two positional paths for
+//! sheet and gaps and one for catalogue. The
 //! scan fires help where that scan fired it, runs the command
 //! itself on the slots the separator distribution assigns,
 //! and hands every other invocation to clap, since clap
@@ -32,6 +33,7 @@ use crate::pytext::{PyStr, is_negative_number};
 pub enum Cmd {
     Sheet,
     Gaps,
+    Catalogue,
 }
 
 impl Cmd {
@@ -40,6 +42,16 @@ impl Cmd {
         match self {
             Cmd::Sheet => "sheet",
             Cmd::Gaps => "gaps",
+            Cmd::Catalogue => "catalogue",
+        }
+    }
+
+    /// The number of positional paths the command's
+    /// subparser takes.
+    pub fn arity(self) -> usize {
+        match self {
+            Cmd::Sheet | Cmd::Gaps => 2,
+            Cmd::Catalogue => 1,
         }
     }
 }
@@ -59,12 +71,8 @@ pub enum Scan {
     /// Help fires for the root parser or for one subcommand.
     FireHelp(Option<Cmd>),
     /// The invocation assigns cleanly and the command runs on
-    /// these slots.
-    Assigned {
-        cmd: Cmd,
-        catalogue: Slot,
-        context: Slot,
-    },
+    /// these slots, one per positional of its subparser.
+    Assigned { cmd: Cmd, slots: Vec<Slot> },
     /// The scan could not cleanly assign the invocation, and
     /// the arguments go to clap as they stand, except that
     /// the token at the given index, where the walk met an
@@ -79,15 +87,7 @@ pub enum Scan {
 pub fn scan(tokens: &[PyStr]) -> Scan {
     match parse_root(tokens) {
         Walk::FireHelp(cmd) => Scan::FireHelp(cmd),
-        Walk::Assigned {
-            cmd,
-            catalogue,
-            context,
-        } => Scan::Assigned {
-            cmd,
-            catalogue,
-            context,
-        },
+        Walk::Assigned { cmd, slots } => Scan::Assigned { cmd, slots },
         Walk::Refuse => Scan::HandToClap { replacement: None },
         Walk::RefuseAt { index, argument } => Scan::HandToClap {
             replacement: Some((index, argument)),
@@ -99,8 +99,7 @@ enum Walk {
     FireHelp(Option<Cmd>),
     Assigned {
         cmd: Cmd,
-        catalogue: Slot,
-        context: Slot,
+        slots: Vec<Slot>,
     },
     Refuse,
     /// An ignored explicit argument refusal at the token with
@@ -409,14 +408,14 @@ enum SubWalk {
         argument: PyStr,
     },
     Parsed {
-        catalogue: Slot,
-        context: Slot,
+        slots: Vec<Slot>,
         extras: Vec<PyStr>,
     },
 }
 
-/// Walk one subparser's token stream over its two positionals.
-fn parse_sub(tokens: &[PyStr]) -> SubWalk {
+/// Walk one subparser's token stream over its positionals,
+/// as many as the subcommand takes.
+fn parse_sub(tokens: &[PyStr], arity: usize) -> SubWalk {
     let (pattern, options) = build_pattern(tokens);
     let mut slots: [Option<Slot>; 2] = [None, None];
     let mut next_slot = 0usize;
@@ -434,7 +433,8 @@ fn parse_sub(tokens: &[PyStr]) -> SubWalk {
             .min()
             .expect("an option index at or after the start");
         if start != next_option {
-            let end = consume_sub_positionals(&pattern, tokens, start, &mut slots, &mut next_slot);
+            let end =
+                consume_sub_positionals(&pattern, tokens, start, &mut slots, &mut next_slot, arity);
             if end > start {
                 start = end;
                 continue;
@@ -464,15 +464,19 @@ fn parse_sub(tokens: &[PyStr]) -> SubWalk {
             }
         }
     }
-    let stop = consume_sub_positionals(&pattern, tokens, start, &mut slots, &mut next_slot);
+    let stop = consume_sub_positionals(&pattern, tokens, start, &mut slots, &mut next_slot, arity);
     extras.extend_from_slice(&tokens[stop..]);
-    match (slots[0].take(), slots[1].take()) {
-        (Some(catalogue), Some(context)) => SubWalk::Parsed {
-            catalogue,
-            context,
+    if next_slot == arity {
+        let filled: Vec<Slot> = slots[..arity]
+            .iter()
+            .map(|slot| slot.clone().expect("a filled slot"))
+            .collect();
+        SubWalk::Parsed {
+            slots: filled,
             extras,
-        },
-        _ => SubWalk::Refuse,
+        }
+    } else {
+        SubWalk::Refuse
     }
 }
 
@@ -484,8 +488,9 @@ fn consume_sub_positionals(
     start: usize,
     slots: &mut [Option<Slot>; 2],
     next_slot: &mut usize,
+    arity: usize,
 ) -> usize {
-    let remaining = 2 - *next_slot;
+    let remaining = arity - *next_slot;
     if remaining == 0 {
         return start;
     }
@@ -566,18 +571,14 @@ fn parse_root(tokens: &[PyStr]) -> Walk {
         return Walk::Refuse;
     }
     match state.assigned {
-        Some((cmd, catalogue, context)) => Walk::Assigned {
-            cmd,
-            catalogue,
-            context,
-        },
+        Some((cmd, slots)) => Walk::Assigned { cmd, slots },
         None => Walk::Refuse,
     }
 }
 
 struct RootState {
     seen: bool,
-    assigned: Option<(Cmd, Slot, Slot)>,
+    assigned: Option<(Cmd, Vec<Slot>)>,
     sub_extras: Vec<PyStr>,
 }
 
@@ -602,23 +603,21 @@ fn consume_root_positionals(
         Cmd::Sheet
     } else if name.eq_str("gaps") {
         Cmd::Gaps
+    } else if name.eq_str("catalogue") {
+        Cmd::Catalogue
     } else {
         return Err(Walk::Refuse);
     };
     state.seen = true;
-    match parse_sub(&slice[1..]) {
+    match parse_sub(&slice[1..], cmd.arity()) {
         SubWalk::FireHelp => Err(Walk::FireHelp(Some(cmd))),
         SubWalk::Refuse => Err(Walk::Refuse),
         SubWalk::RefuseAt { index, argument } => Err(Walk::RefuseAt {
             index: start + 1 + index,
             argument,
         }),
-        SubWalk::Parsed {
-            catalogue,
-            context,
-            extras,
-        } => {
-            state.assigned = Some((cmd, catalogue, context));
+        SubWalk::Parsed { slots, extras } => {
+            state.assigned = Some((cmd, slots));
             state.sub_extras = extras;
             Ok(start + span)
         }

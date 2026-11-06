@@ -561,7 +561,7 @@
    "expect": {
     "code": 2,
     "stdout": "",
-    "stderr": "Lists the actions available to an agent at one decision point, in context. Executes nothing.\n\nUsage: cuesheet <COMMAND>\n\nCommands:\n  sheet  \n  gaps   \n\nOptions:\n  -h, --help  Print help\n"
+    "stderr": "Lists the actions available to an agent at one decision point, in context. Executes nothing.\n\nUsage: cuesheet <COMMAND>\n\nCommands:\n  sheet      \n  gaps       \n  catalogue  \n\nOptions:\n  -h, --help  Print help\n"
    }
   },
   {
@@ -580,7 +580,7 @@
    ],
    "expect": {
     "code": 0,
-    "stdout": "Lists the actions available to an agent at one decision point, in context. Executes nothing.\n\nUsage: cuesheet <COMMAND>\n\nCommands:\n  sheet  \n  gaps   \n\nOptions:\n  -h, --help  Print help\n",
+    "stdout": "Lists the actions available to an agent at one decision point, in context. Executes nothing.\n\nUsage: cuesheet <COMMAND>\n\nCommands:\n  sheet      \n  gaps       \n  catalogue  \n\nOptions:\n  -h, --help  Print help\n",
     "stderr": ""
    }
   },
@@ -600,7 +600,7 @@
    ],
    "expect": {
     "code": 0,
-    "stdout": "Lists the actions available to an agent at one decision point, in context. Executes nothing.\n\nUsage: cuesheet <COMMAND>\n\nCommands:\n  sheet  \n  gaps   \n\nOptions:\n  -h, --help  Print help\n",
+    "stdout": "Lists the actions available to an agent at one decision point, in context. Executes nothing.\n\nUsage: cuesheet <COMMAND>\n\nCommands:\n  sheet      \n  gaps       \n  catalogue  \n\nOptions:\n  -h, --help  Print help\n",
     "stderr": ""
    }
   },
@@ -620,7 +620,7 @@
    ],
    "expect": {
     "code": 0,
-    "stdout": "Lists the actions available to an agent at one decision point, in context. Executes nothing.\n\nUsage: cuesheet <COMMAND>\n\nCommands:\n  sheet  \n  gaps   \n\nOptions:\n  -h, --help  Print help\n",
+    "stdout": "Lists the actions available to an agent at one decision point, in context. Executes nothing.\n\nUsage: cuesheet <COMMAND>\n\nCommands:\n  sheet      \n  gaps       \n  catalogue  \n\nOptions:\n  -h, --help  Print help\n",
     "stderr": ""
    }
   },
@@ -683,7 +683,7 @@
    ],
    "expect": {
     "code": 0,
-    "stdout": "Lists the actions available to an agent at one decision point, in context. Executes nothing.\n\nUsage: cuesheet <COMMAND>\n\nCommands:\n  sheet  \n  gaps   \n\nOptions:\n  -h, --help  Print help\n",
+    "stdout": "Lists the actions available to an agent at one decision point, in context. Executes nothing.\n\nUsage: cuesheet <COMMAND>\n\nCommands:\n  sheet      \n  gaps       \n  catalogue  \n\nOptions:\n  -h, --help  Print help\n",
     "stderr": ""
    }
   },
@@ -1027,7 +1027,7 @@
    ],
    "expect": {
     "code": 0,
-    "stdout": "Lists the actions available to an agent at one decision point, in context. Executes nothing.\n\nUsage: cuesheet <COMMAND>\n\nCommands:\n  sheet  \n  gaps   \n\nOptions:\n  -h, --help  Print help\n",
+    "stdout": "Lists the actions available to an agent at one decision point, in context. Executes nothing.\n\nUsage: cuesheet <COMMAND>\n\nCommands:\n  sheet      \n  gaps       \n  catalogue  \n\nOptions:\n  -h, --help  Print help\n",
     "stderr": ""
    }
   },

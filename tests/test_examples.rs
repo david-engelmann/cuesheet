@@ -1,9 +1,10 @@
 //! The committed examples, ported from the landed Python
-//! suite test for test (CU-12).
+//! suite test for test (CU-12). The catalogue document pin
+//! stands under CU-36.
 
 use std::path::{Path, PathBuf};
 
-use cuesheet::catalogue::parse_catalogue;
+use cuesheet::catalogue::{format_catalogue, parse_catalogue};
 use cuesheet::context::parse_context;
 use cuesheet::pytext::PyStr;
 use cuesheet::sheet::{build_gaps, build_sheet, format_gaps, format_sheet};
@@ -29,6 +30,15 @@ fn produce(context_name: &str) -> String {
     )
     .expect("context parses");
     format_sheet(&context, &build_sheet(&catalogue, &context))
+}
+
+fn produce_document() -> String {
+    let catalogue = parse_catalogue(
+        &read_example("stagehand.catalogue"),
+        &PyStr::from_str("stagehand.catalogue"),
+    )
+    .expect("catalogue parses");
+    format_catalogue(&catalogue)
 }
 
 fn produce_gaps(context_name: &str) -> String {
@@ -98,6 +108,11 @@ fn the_restricted_example_regenerates_its_committed_gaps_view() {
         produce_gaps("restricted.context"),
         read_example("restricted.gaps")
     );
+}
+
+#[test]
+fn the_example_catalogue_regenerates_its_committed_document() {
+    assert_eq!(produce_document(), read_example("stagehand.document"));
 }
 
 #[test]
