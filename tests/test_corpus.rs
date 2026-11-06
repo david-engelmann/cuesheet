@@ -24,9 +24,9 @@ fn the_corpus_matches_its_sourced_expectations() {
     for case in &cases {
         *counts.entry(case.source.as_str()).or_insert(0) += 1;
     }
-    assert_eq!(cases.len(), 55, "the corpus holds 55 cases");
+    assert_eq!(cases.len(), 57, "the corpus holds 57 cases");
     assert_eq!(counts.get("oracle"), Some(&22), "oracle sourced cases");
-    assert_eq!(counts.get("clap"), Some(&30), "clap presentation cases");
+    assert_eq!(counts.get("clap"), Some(&32), "clap presentation cases");
     assert_eq!(counts.get("port"), Some(&3), "port voiced cases");
     let failures: Vec<String> = cases
         .iter()

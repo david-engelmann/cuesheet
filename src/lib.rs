@@ -1,8 +1,9 @@
-//! cuesheet, the library. It lists the actions an agent
-//! could take right now, in context, and never executes one.
+//! cuesheet, the library. Lists the actions available to an agent at one
+//! decision point, in context, and never executes one.
 //!
 //! The library carries the contracted behaviour: the
-//! catalogue and context formats and their refusals, the one
+//! catalogue and context formats and their refusals, the
+//! catalogue document the catalogue command prints, the one
 //! shared evaluation the sheet and the gaps view are both
 //! computed from, the path spelling a read opens, the Python
 //! text discipline the formats are stated in, and the

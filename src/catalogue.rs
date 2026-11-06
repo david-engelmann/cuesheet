@@ -12,9 +12,9 @@ pub const VALUE: &str = "values";
 pub const SET: &str = "set-of";
 
 /// One declared fact, with the options it can carry. The
-/// options stand as declared, repetitions included, because
-/// the only reads the format makes of them are membership
-/// reads, under which a repetition changes nothing (CU-19).
+/// options stand deduplicated in first occurrence order, so
+/// the stored form agrees with the set reading CU-19 states
+/// and with the catalogue document CU-34 prints.
 #[derive(Debug, Clone, PartialEq)]
 pub struct Fact {
     pub name: String,
@@ -40,12 +40,16 @@ pub struct Action {
     pub fires_in_turn: String,
 }
 
-/// A parsed catalogue.
+/// A parsed catalogue. The maps answer membership by name;
+/// the order vectors carry the declaration order the
+/// catalogue document prints (CU-33).
 #[derive(Debug, Clone, PartialEq)]
 pub struct Catalogue {
     pub harness: String,
     pub facts: HashMap<String, Fact>,
     pub actions: HashMap<String, Action>,
+    pub fact_order: Vec<String>,
+    pub action_order: Vec<String>,
 }
 
 /// The tests that read a fact of the given kind, in the order
@@ -59,7 +63,10 @@ fn tests_for_kind(kind: &str) -> [&'static str; 2] {
 }
 
 /// Split a declared list at its commas and strip each piece,
-/// refusing the list when any piece is empty.
+/// refusing the list when any piece is empty. The values
+/// stand deduplicated in first occurrence order, so a
+/// repetition in a declaration list is recorded once and no
+/// repetition can reach the printed document (CU-34).
 fn value_list(raw: &str, source: &PyStr, what: &str) -> Result<Vec<String>, CuesheetError> {
     let values: Vec<String> = raw
         .split(',')
@@ -70,7 +77,13 @@ fn value_list(raw: &str, source: &PyStr, what: &str) -> Result<Vec<String>, Cues
             "{source} is malformed, the {what} carries an empty value"
         )));
     }
-    Ok(values)
+    let mut distinct: Vec<String> = Vec::new();
+    for value in values {
+        if !distinct.contains(&value) {
+            distinct.push(value);
+        }
+    }
+    Ok(distinct)
 }
 
 /// Refuse a rule test the catalogue does not admit, in the
@@ -167,6 +180,8 @@ pub fn parse_catalogue(text: &str, source: &PyStr) -> Result<Catalogue, Cuesheet
     let harness = head[1].to_string();
     let mut facts: HashMap<String, Fact> = HashMap::new();
     let mut actions: HashMap<String, Action> = HashMap::new();
+    let mut fact_order: Vec<String> = Vec::new();
+    let mut action_order: Vec<String> = Vec::new();
     let mut pending: Option<Pending> = None;
     for line in &lines[1..] {
         let parts = py_split(line);
@@ -185,6 +200,7 @@ pub fn parse_catalogue(text: &str, source: &PyStr) -> Result<Catalogue, Cuesheet
                 )));
             }
             let options = value_list(&parts[3..].join(" "), source, &format!("fact {name}"))?;
+            fact_order.push(name.clone());
             facts.insert(
                 name.clone(),
                 Fact {
@@ -196,6 +212,7 @@ pub fn parse_catalogue(text: &str, source: &PyStr) -> Result<Catalogue, Cuesheet
         } else if parts[0] == "action" && parts.len() == 2 {
             if let Some(done_pending) = pending.take() {
                 let done = finish_action(done_pending, source)?;
+                action_order.push(done.name.clone());
                 actions.insert(done.name.clone(), done);
             }
             let name = parts[1].to_string();
@@ -250,11 +267,47 @@ pub fn parse_catalogue(text: &str, source: &PyStr) -> Result<Catalogue, Cuesheet
     }
     if let Some(done_pending) = pending.take() {
         let done = finish_action(done_pending, source)?;
+        action_order.push(done.name.clone());
         actions.insert(done.name.clone(), done);
     }
     Ok(Catalogue {
         harness,
         facts,
         actions,
+        fact_order,
+        action_order,
     })
+}
+
+/// Render one parsed catalogue as its document (CU-33): the
+/// header line, one line per declared fact in declaration
+/// order with its options in recorded order, and one block
+/// per declared action in declaration order, the action line
+/// followed by one evidence line per recorded rule test. The
+/// document states the offer alone. It carries no recorded
+/// clause and no fires or fires-in-turn lines.
+pub fn format_catalogue(catalogue: &Catalogue) -> String {
+    let mut lines: Vec<String> = vec![format!("catalogue {}", catalogue.harness)];
+    for name in &catalogue.fact_order {
+        let fact = &catalogue.facts[name];
+        lines.push(format!(
+            "fact {} {} {}",
+            fact.name,
+            fact.kind,
+            fact.options.join(", ")
+        ));
+    }
+    for name in &catalogue.action_order {
+        let action = &catalogue.actions[name];
+        lines.push(format!("action {}", action.name));
+        for test in &action.tests {
+            lines.push(format!(
+                "evidence {} {} {}",
+                test.fact, test.test, test.value
+            ));
+        }
+    }
+    let mut document = lines.join("\n");
+    document.push('\n');
+    document
 }

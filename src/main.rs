@@ -3,6 +3,8 @@
 //! Subcommands
 //!   sheet    print the sheet of one catalogue and context
 //!   gaps     print the gaps view of one catalogue and context
+//!   catalogue
+//!            print the catalogue document of one catalogue
 //!
 //! The argument parsing is clap, adopted under the
 //! maintainer's tool choice ruling. Before clap sees the
@@ -30,7 +32,7 @@ use clap::{Args, CommandFactory, Parser, Subcommand};
 use std::os::unix::ffi::OsStrExt;
 
 use cuesheet::argv::{Cmd, Scan, Slot, scan};
-use cuesheet::catalogue::{Catalogue, parse_catalogue};
+use cuesheet::catalogue::{Catalogue, format_catalogue, parse_catalogue};
 use cuesheet::context::{Context, parse_context};
 use cuesheet::errors::CuesheetError;
 use cuesheet::paths::py_path_normalized;
@@ -40,7 +42,7 @@ use cuesheet::sheet::{build_gaps, build_sheet, format_gaps, format_sheet};
 #[derive(Parser)]
 #[command(
     name = "cuesheet",
-    about = "Lists the actions available to an agent at one decision point, in context. Executes nothing.",
+    about = "Lists the actions available to an agent at one decision point, in context, and never executes one",
     disable_version_flag = true,
     disable_help_subcommand = true
 )]
@@ -55,6 +57,8 @@ enum Commands {
     Sheet(SheetArgs),
     #[command(name = "gaps", infer_long_args = true)]
     Gaps(GapsArgs),
+    #[command(name = "catalogue", infer_long_args = true)]
+    Catalogue(CatalogueArgs),
 }
 
 #[derive(Args)]
@@ -67,6 +71,11 @@ struct SheetArgs {
 struct GapsArgs {
     catalogue: OsString,
     context: OsString,
+}
+
+#[derive(Args)]
+struct CatalogueArgs {
+    catalogue: OsString,
 }
 
 /// The size of the Python tool's standard output buffer. A
@@ -258,12 +267,38 @@ fn read_bytes(path: &PyStr) -> std::io::Result<Vec<u8>> {
     }
 }
 
-/// Run one assigned command on its slots, in the read order
-/// the Python command reads: the catalogue reads and parses
+/// Run one assigned command on its slots. The catalogue
+/// command reads its one slot; sheet and gaps read the
+/// catalogue slot and then the context slot.
+fn run_assigned(cmd: Cmd, slots: &[Slot]) -> ExitCode {
+    match cmd {
+        Cmd::Catalogue => run_catalogue(&slots[0]),
+        Cmd::Sheet | Cmd::Gaps => run_sheet_or_gaps(cmd, &slots[0], &slots[1]),
+    }
+}
+
+/// Run the catalogue command (CU-32). It reads and parses
+/// the catalogue through the same path the sheet command
+/// reads and parses it, so its refusals are the parse
+/// path's own, and prints the catalogue document.
+fn run_catalogue(catalogue_slot: &Slot) -> ExitCode {
+    let (catalogue_text, catalogue_source) = match read_slot(catalogue_slot, "catalogue") {
+        Ok(pair) => pair,
+        Err(code) => return code,
+    };
+    let catalogue: Catalogue = match parse_catalogue(&catalogue_text, &catalogue_source) {
+        Ok(catalogue) => catalogue,
+        Err(error) => return answer_refusal(&error),
+    };
+    print_document(&format_catalogue(&catalogue))
+}
+
+/// Run sheet or gaps on their slots, in the read order the
+/// Python command reads: the catalogue reads and parses
 /// first, then the context reads and parses against it, and
 /// the list in the context slot surfaces only at its read,
 /// after the catalogue has parsed clean (CU-30).
-fn run_assigned(cmd: Cmd, catalogue_slot: &Slot, context_slot: &Slot) -> ExitCode {
+fn run_sheet_or_gaps(cmd: Cmd, catalogue_slot: &Slot, context_slot: &Slot) -> ExitCode {
     let (catalogue_text, catalogue_source) = match read_slot(catalogue_slot, "catalogue") {
         Ok(pair) => pair,
         Err(code) => return code,
@@ -280,9 +315,10 @@ fn run_assigned(cmd: Cmd, catalogue_slot: &Slot, context_slot: &Slot) -> ExitCod
         Ok(context) => context,
         Err(error) => return answer_refusal(&error),
     };
-    let document = match cmd {
-        Cmd::Sheet => format_sheet(&context, &build_sheet(&catalogue, &context)),
-        Cmd::Gaps => format_gaps(&context, &build_gaps(&catalogue, &context)),
+    let document = if cmd == Cmd::Sheet {
+        format_sheet(&context, &build_sheet(&catalogue, &context))
+    } else {
+        format_gaps(&context, &build_gaps(&catalogue, &context))
     };
     print_document(&document)
 }
@@ -307,11 +343,7 @@ fn run() -> ExitCode {
                 Err(error) => answer_clap_error(error),
             }
         }
-        Scan::Assigned {
-            cmd,
-            catalogue,
-            context,
-        } => run_assigned(cmd, &catalogue, &context),
+        Scan::Assigned { cmd, slots } => run_assigned(cmd, &slots),
         Scan::HandToClap { replacement } => {
             let mut handed: Vec<OsString> = rest;
             if let Some((index, argument)) = replacement {

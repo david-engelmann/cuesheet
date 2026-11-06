@@ -1,0 +1,22 @@
+catalogue stagehand
+fact tools set-of read, edit, search, run, spawn, message
+fact human-present values yes, no
+fact usage-window values inside, outside
+fact last-action values none, read-file, edit-file, search, run-command, ask-human, spawn-helper, send-update
+action read-file
+evidence tools has read
+action edit-file
+evidence tools has edit
+evidence last-action is read-file
+action search-corpus
+evidence tools has search
+action run-command
+evidence tools has run
+evidence usage-window is inside
+action ask-human
+evidence human-present is yes
+action spawn-helper
+evidence tools has spawn
+evidence usage-window is inside
+action send-update
+evidence tools has message
