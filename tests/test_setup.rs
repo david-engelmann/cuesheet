@@ -155,14 +155,8 @@ fn the_ci_gate_steps_run_the_full_gate() {
         text.contains("cargo fmt --check"),
         "the CI gate must check formatting"
     );
-    assert!(
-        text.contains("cargo clippy"),
-        "the CI gate must run clippy"
-    );
-    assert!(
-        text.contains("Run CI gate"),
-        "the CI gate step is missing"
-    );
+    assert!(text.contains("cargo clippy"), "the CI gate must run clippy");
+    assert!(text.contains("Run CI gate"), "the CI gate step is missing");
     assert!(
         text.contains("cargo test"),
         "the CI gate must run the cargo gate"
