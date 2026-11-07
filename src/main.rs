@@ -99,30 +99,35 @@ const UNCAUGHT_PRINT_LINE: &str = "cuesheet: the document print failed";
 const LIST_PATH_LINE: &str =
     "cuesheet: an argument arrived as a list where a single path was expected";
 
-/// A print failure discovered while the output still fit the
-/// standard output buffer.
-#[derive(Debug)]
-struct FailedFlush(String);
+/// Which side of the output buffer a failed print stood on
+/// when its failure surfaced (CU-29, CU-39).
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum PrintFailureKind {
+    /// The failure surfaced while the output still fit the
+    /// standard output buffer.
+    InsideBuffer,
+    /// The failure surfaced at or past the buffer.
+    AtOrPastBuffer,
+}
 
-impl std::fmt::Display for FailedFlush {
+/// A failed print of one document, carrying the port's own
+/// line for the failure and the kind that selects the exit
+/// discipline its answer follows. This one type carries the
+/// two failure families the entry once carried as two
+/// single-field error types apart (CU-39).
+#[derive(Debug)]
+struct PrintFailure {
+    line: String,
+    kind: PrintFailureKind,
+}
+
+impl std::fmt::Display for PrintFailure {
     fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        formatter.write_str(&self.0)
+        formatter.write_str(&self.line)
     }
 }
 
-impl std::error::Error for FailedFlush {}
-
-/// A print failure discovered at or past the buffer.
-#[derive(Debug)]
-struct UncaughtPrint(String);
-
-impl std::fmt::Display for UncaughtPrint {
-    fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        formatter.write_str(&self.0)
-    }
-}
-
-impl std::error::Error for UncaughtPrint {}
+impl std::error::Error for PrintFailure {}
 
 /// Print one document to standard output through one checked
 /// write, as the Python tool prints through its buffered
@@ -134,9 +139,15 @@ fn print_out(text: &str) -> anyhow::Result<()> {
         .and_then(|()| lock.flush())
         .map_err(|_| {
             if text.len() < STDOUT_BUFFER_BYTES {
-                AnyError::new(FailedFlush(FAILED_PRINT_LINE.to_string()))
+                AnyError::new(PrintFailure {
+                    line: FAILED_PRINT_LINE.to_string(),
+                    kind: PrintFailureKind::InsideBuffer,
+                })
             } else {
-                AnyError::new(UncaughtPrint(UNCAUGHT_PRINT_LINE.to_string()))
+                AnyError::new(PrintFailure {
+                    line: UNCAUGHT_PRINT_LINE.to_string(),
+                    kind: PrintFailureKind::AtOrPastBuffer,
+                })
             }
         })
 }
@@ -166,14 +177,14 @@ fn print_document(text: &str) -> ExitCode {
 
 /// Answer a failed document print.
 fn answer_print_failure(failure: AnyError) -> ExitCode {
-    if let Some(failed) = failure.downcast_ref::<FailedFlush>() {
-        let mut line = PyStr::from_str(&failed.0);
+    if let Some(failed) = failure.downcast_ref::<PrintFailure>() {
+        let status = match failed.kind {
+            PrintFailureKind::InsideBuffer => 120,
+            PrintFailureKind::AtOrPastBuffer => 1,
+        };
+        let mut line = PyStr::from_str(&failed.line);
         line.push_str("\n");
-        answer_error_line(&line, 120)
-    } else if let Some(uncaught) = failure.downcast_ref::<UncaughtPrint>() {
-        let mut line = PyStr::from_str(&uncaught.0);
-        line.push_str("\n");
-        answer_error_line(&line, 1)
+        answer_error_line(&line, status)
     } else {
         let mut line = PyStr::from_str("error: ");
         line.push_str(&failure.to_string());
