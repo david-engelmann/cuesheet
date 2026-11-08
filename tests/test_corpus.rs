@@ -80,8 +80,16 @@ fn branch_shapes(token: &str) -> Vec<&'static str> {
                 let rest: Vec<char> = chars.collect();
                 !rest.is_empty()
                     && rest[0] != '-'
-                    && rest.iter().any(|point| point.is_numeric())
-                    && rest.iter().all(|point| point.is_numeric() || *point == '.')
+                    && (rest.iter().all(|point| point.is_numeric())
+                        || match rest.iter().position(|point| *point == '.') {
+                            Some(dot) => {
+                                let (head, tail) = (&rest[..dot], &rest[dot + 1..]);
+                                !tail.is_empty()
+                                    && head.iter().all(|point| point.is_numeric())
+                                    && tail.iter().all(|point| point.is_numeric())
+                            }
+                            None => false,
+                        })
             }
             _ => false,
         }
@@ -89,7 +97,14 @@ fn branch_shapes(token: &str) -> Vec<&'static str> {
     if negative_number {
         shapes.push("negative number");
     }
-    if token.contains(' ') && !token.starts_with("-h") {
+    let recognized_option_form = {
+        let head = token.split('=').next().unwrap_or(token);
+        head == "-h"
+            || head == "--help"
+            || (head.starts_with("--") && "--help".starts_with(head))
+            || token.starts_with("-h")
+    };
+    if token.contains(' ') && !recognized_option_form {
         shapes.push("space carrying positional");
     }
     if token == "-" {
