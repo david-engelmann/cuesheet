@@ -24,9 +24,9 @@ fn the_corpus_matches_its_sourced_expectations() {
     for case in &cases {
         *counts.entry(case.source.as_str()).or_insert(0) += 1;
     }
-    assert_eq!(cases.len(), 57, "the corpus holds 57 cases");
-    assert_eq!(counts.get("oracle"), Some(&22), "oracle sourced cases");
-    assert_eq!(counts.get("clap"), Some(&32), "clap presentation cases");
+    assert_eq!(cases.len(), 81, "the corpus holds 81 cases");
+    assert_eq!(counts.get("oracle"), Some(&29), "oracle sourced cases");
+    assert_eq!(counts.get("clap"), Some(&49), "clap presentation cases");
     assert_eq!(counts.get("port"), Some(&3), "port voiced cases");
     let failures: Vec<String> = cases
         .iter()
@@ -37,6 +37,137 @@ fn the_corpus_matches_its_sourced_expectations() {
         })
         .collect();
     assert!(failures.is_empty(), "corpus failures: {failures:#?}");
+}
+
+/// The shapes one token carries for the branch census of
+/// the committed corpus (CU-44, CU-45).
+fn branch_shapes(token: &str) -> Vec<&'static str> {
+    let mut shapes = Vec::new();
+    if token == "-h" {
+        shapes.push("exact short");
+    }
+    if token == "--help" {
+        shapes.push("exact long");
+    }
+    let long_abbreviation = |text: &str| {
+        text.starts_with("--") && (3..=5).contains(&text.len()) && "--help".starts_with(text)
+    };
+    if long_abbreviation(token) {
+        shapes.push("long abbreviation");
+    }
+    if let Some(eq) = token.find('=')
+        && long_abbreviation(&token[..eq])
+    {
+        shapes.push("long abbreviation with equals");
+    }
+    if token.starts_with("-h=") {
+        shapes.push("short equals head");
+    }
+    if token.starts_with("-h")
+        && token.chars().count() > 2
+        && !token.contains('=')
+        && !token[1..].starts_with('-')
+    {
+        shapes.push("short bundle");
+    }
+    if token.starts_with("--help=") {
+        shapes.push("valued long help");
+    }
+    let negative_number = {
+        let mut chars = token.chars();
+        match chars.next() {
+            Some('-') => {
+                let rest: Vec<char> = chars.collect();
+                !rest.is_empty()
+                    && rest[0] != '-'
+                    && rest.iter().any(|point| point.is_numeric())
+                    && rest.iter().all(|point| point.is_numeric() || *point == '.')
+            }
+            _ => false,
+        }
+    };
+    if negative_number {
+        shapes.push("negative number");
+    }
+    if token.contains(' ') && !token.starts_with("-h") {
+        shapes.push("space carrying positional");
+    }
+    if token == "-" {
+        shapes.push("lone dash");
+    }
+    if token == "--" {
+        shapes.push("separator");
+    }
+    shapes
+}
+
+/// The branch census of the committed corpus (CU-44,
+/// CU-45). Each case is counted once for a branch and a
+/// position when any token of its invocation carries the
+/// branch's shape, the root position standing ahead of the
+/// command name and the subcommand position behind it, in
+/// the manner of the census the Round 8 record carries. The
+/// pin asserts the presence of cases by branch and by
+/// position at the floors CU-44 states, and asserts no
+/// expectation of any case.
+#[test]
+fn the_corpus_covers_the_classification_branches() {
+    let cases = load_corpus();
+    let mut counts: BTreeMap<(&str, &str), usize> = BTreeMap::new();
+    let mut abbreviation_lengths: std::collections::BTreeSet<usize> =
+        std::collections::BTreeSet::new();
+    for case in &cases {
+        let command_index = case
+            .argv
+            .iter()
+            .position(|token| ["sheet", "gaps", "catalogue"].contains(&token.as_str()));
+        let mut seen: std::collections::BTreeSet<(&str, &str)> = std::collections::BTreeSet::new();
+        for (index, token) in case.argv.iter().enumerate() {
+            let position = match command_index {
+                Some(command) if index > command => "subcommand",
+                _ => "root",
+            };
+            for shape in branch_shapes(token) {
+                seen.insert((shape, position));
+                if shape == "long abbreviation" {
+                    abbreviation_lengths.insert(token.chars().count());
+                }
+            }
+        }
+        for entry in seen {
+            *counts.entry(entry).or_insert(0) += 1;
+        }
+    }
+    let floor = |shape: &str, position: &str, minimum: usize| {
+        let found = counts.get(&(shape, position)).copied().unwrap_or(0);
+        assert!(
+            found >= minimum,
+            "the corpus holds {found} cases for the {shape} branch at the {position} \
+             position, below the floor of {minimum} CU-44 states"
+        );
+    };
+    for shape in [
+        "exact short",
+        "exact long",
+        "long abbreviation",
+        "long abbreviation with equals",
+        "short equals head",
+        "short bundle",
+        "valued long help",
+    ] {
+        floor(shape, "root", 2);
+        floor(shape, "subcommand", 2);
+    }
+    for shape in ["negative number", "space carrying positional", "lone dash"] {
+        floor(shape, "subcommand", 2);
+    }
+    floor("separator", "subcommand", 2);
+    floor("separator", "root", 1);
+    assert!(
+        abbreviation_lengths.len() >= 2,
+        "the long abbreviations of the corpus span one length only, \
+         where CU-44 states at least two distinct lengths"
+    );
 }
 
 /// A small deterministic generator, so the generated pairs
