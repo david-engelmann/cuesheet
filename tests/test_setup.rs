@@ -345,8 +345,8 @@ fn the_one_description_stands_at_its_positions() {
     }
     assert_eq!(
         help_streams.len(),
-        6,
-        "the corpus must carry exactly six root help expectations"
+        10,
+        "the corpus must carry exactly ten root help expectations"
     );
     for text in help_streams {
         let first_line = text.split('\n').next().expect("help first line");
