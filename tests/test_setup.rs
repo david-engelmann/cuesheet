@@ -236,3 +236,123 @@ fn no_em_or_en_dash_in_text_files() {
     }
     assert!(bad.is_empty(), "em or en dash found in {bad:?}");
 }
+
+/// The one description of the repo, in the form the
+/// manifest field and the about of the root command hold,
+/// with no sentence period standing at its end (CU-41).
+const DESCRIPTION: &str = "Lists the actions available to an agent at one decision point, in context, and never executes one";
+
+/// The one description as a sentence, the form the README
+/// lede and the crate doc opening hold (CU-41).
+const DESCRIPTION_SENTENCE: &str = "Lists the actions available to an agent at one decision point, in context, and never executes one.";
+
+#[test]
+fn the_one_description_stands_at_its_positions() {
+    // The lede of the README, compared as the whole line.
+    let readme = read("README.md");
+    let lede = readme.lines().nth(2).expect("README lede line");
+    assert_eq!(
+        lede, DESCRIPTION_SENTENCE,
+        "the README lede is not the one description as a sentence"
+    );
+
+    // The description field of Cargo.toml, parsed as the
+    // field of the package table and compared on the value
+    // of the field.
+    let manifest = read("Cargo.toml");
+    let mut in_package = false;
+    let mut fields = manifest.lines().filter(|line| {
+        if line.starts_with('[') {
+            in_package = *line == "[package]";
+        }
+        in_package && line.starts_with("description = ")
+    });
+    let field = fields.next().expect("manifest description field");
+    assert!(
+        fields.next().is_none(),
+        "the manifest carries more than one description field"
+    );
+    let value = field
+        .strip_prefix("description = \"")
+        .and_then(|rest| rest.strip_suffix('"'))
+        .expect("manifest description value");
+    assert_eq!(
+        value, DESCRIPTION,
+        "the manifest description is not the one description"
+    );
+
+    // The about attribute of the root command in src/main.rs,
+    // read at its position and compared on its value.
+    let main = read("src/main.rs");
+    let mut abouts = main.lines().filter(|line| line.contains("about = "));
+    let about_line = abouts.next().expect("root command about");
+    assert!(
+        abouts.next().is_none(),
+        "src/main.rs carries more than one about attribute"
+    );
+    let about = about_line
+        .split("about = \"")
+        .nth(1)
+        .and_then(|rest| rest.strip_suffix("\","))
+        .expect("root command about value");
+    assert_eq!(
+        about, DESCRIPTION,
+        "the about of the root command is not the one description"
+    );
+
+    // The crate doc opening in src/lib.rs, rebuilt from its
+    // first two doc lines and compared whole.
+    let lib = read("src/lib.rs");
+    let mut doc_lines = lib.lines();
+    let first = doc_lines
+        .next()
+        .and_then(|line| line.strip_prefix("//! "))
+        .expect("crate doc first line");
+    let second = doc_lines
+        .next()
+        .and_then(|line| line.strip_prefix("//! "))
+        .expect("crate doc second line");
+    let opening = format!("{first} {second}");
+    assert_eq!(
+        opening,
+        format!("cuesheet, the library. {DESCRIPTION_SENTENCE}"),
+        "the crate doc opening does not carry the one description"
+    );
+
+    // The root help expectations of the committed corpus,
+    // counted and each compared on its first line. A stream
+    // carries the root help text when it lists the commands
+    // of the root command, which the error streams that print
+    // the root usage line never do.
+    let corpus = read("tests/cli_corpus.json");
+    let parsed: serde_json::Value = serde_json::from_str(&corpus).expect("parse corpus");
+    let cases = parsed
+        .get("cases")
+        .and_then(|cases| cases.as_array())
+        .expect("corpus cases");
+    let mut help_streams = Vec::new();
+    for case in cases {
+        let expect = case.get("expect").expect("expect block");
+        for stream in ["stdout", "stderr"] {
+            let text = expect
+                .get(stream)
+                .and_then(|text| text.as_str())
+                .unwrap_or("");
+            if text.contains("\nCommands:\n") {
+                help_streams.push(text);
+            }
+        }
+    }
+    assert_eq!(
+        help_streams.len(),
+        6,
+        "the corpus must carry exactly six root help expectations"
+    );
+    for text in help_streams {
+        let first_line = text.split('\n').next().expect("help first line");
+        assert_eq!(
+            first_line, DESCRIPTION,
+            "a root help expectation does not open with the one description"
+        );
+    }
+}
