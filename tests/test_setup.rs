@@ -257,11 +257,16 @@ fn the_one_description_stands_at_its_positions() {
     );
 
     // The description field of Cargo.toml, parsed as the
-    // field and compared on the value of the field.
+    // field of the package table and compared on the value
+    // of the field.
     let manifest = read("Cargo.toml");
-    let mut fields = manifest
-        .lines()
-        .filter(|line| line.starts_with("description = "));
+    let mut in_package = false;
+    let mut fields = manifest.lines().filter(|line| {
+        if line.starts_with('[') {
+            in_package = *line == "[package]";
+        }
+        in_package && line.starts_with("description = ")
+    });
     let field = fields.next().expect("manifest description field");
     assert!(
         fields.next().is_none(),
