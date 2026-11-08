@@ -200,6 +200,14 @@ fn walk_unknown_optional_at_the_root_refuses() {
 }
 
 #[test]
+fn walk_unknown_optional_behind_a_subcommand_refuses() {
+    expect_hand_none(&["sheet", "--bogus", "a", "b"]);
+    expect_hand_none(&["gaps", "--bogus", "a", "b"]);
+    expect_hand_none(&["catalogue", "--bogus", "a"]);
+    expect_hand_none(&["sheet", "--version", "a", "b"]);
+}
+
+#[test]
 fn walk_empty_stream_refuses() {
     expect_hand_none(&[]);
 }
