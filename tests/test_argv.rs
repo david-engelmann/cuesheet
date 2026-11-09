@@ -103,6 +103,16 @@ fn classify_long_abbreviation_with_equals_refuses() {
 }
 
 #[test]
+fn classify_long_abbreviation_with_equals_and_an_empty_argument_refuses() {
+    expect_hand_replacement(&["--h="], 0, "");
+}
+
+#[test]
+fn classify_degenerate_long_prefix_with_equals_refuses() {
+    expect_hand_replacement(&["--=x"], 0, "x");
+}
+
+#[test]
 fn classify_unrecognized_equals_head_is_a_no_action_optional() {
     expect_hand_none(&["--foo=bar"]);
 }
@@ -133,6 +143,20 @@ fn classify_negative_number_stands_as_a_positional() {
 }
 
 #[test]
+fn classify_negative_number_leading_dot_stands_as_a_positional() {
+    expect_assigned(
+        &["sheet", "-.5", "b"],
+        Cmd::Sheet,
+        vec![one("-.5"), one("b")],
+    );
+}
+
+#[test]
+fn classify_negative_number_trailing_dot_is_no_number() {
+    expect_hand_none(&["sheet", "-1.", "b"]);
+}
+
+#[test]
 fn classify_space_carrying_token_stands_as_a_positional() {
     expect_assigned(
         &["sheet", "-a b", "c"],
@@ -159,6 +183,11 @@ fn walk_help_fires_behind_each_subcommand() {
 #[test]
 fn walk_help_fires_after_a_complete_assignment() {
     expect_fire(&["sheet", "a", "b", "-h"], Some(Cmd::Sheet));
+}
+
+#[test]
+fn walk_help_fires_after_an_extra_value() {
+    expect_fire(&["sheet", "a", "b", "c", "-h"], Some(Cmd::Sheet));
 }
 
 #[test]
@@ -208,6 +237,19 @@ fn walk_unknown_optional_behind_a_subcommand_refuses() {
 }
 
 #[test]
+fn walk_unknown_optional_after_a_complete_assignment_refuses() {
+    expect_hand_none(&["sheet", "a", "b", "--bogus"]);
+    expect_hand_none(&["gaps", "a", "b", "--bogus"]);
+    expect_hand_none(&["catalogue", "a", "--bogus"]);
+}
+
+#[test]
+fn walk_unknown_short_before_paths_behind_a_subcommand_refuses() {
+    expect_hand_none(&["sheet", "-x", "a", "b"]);
+    expect_hand_none(&["catalogue", "-x", "a"]);
+}
+
+#[test]
 fn walk_empty_stream_refuses() {
     expect_hand_none(&[]);
 }
@@ -242,8 +284,18 @@ fn help_cluster_minus_remainder_refuses_the_whole_remainder() {
 }
 
 #[test]
+fn help_cluster_minus_after_an_h_refuses_the_remainder() {
+    expect_hand_replacement(&["-hh-x"], 0, "-x");
+}
+
+#[test]
 fn help_cluster_h_then_equals_refuses_the_value() {
     expect_hand_replacement(&["-hh=x"], 0, "x");
+}
+
+#[test]
+fn help_cluster_h_then_equals_with_an_empty_text_refuses() {
+    expect_hand_replacement(&["-hh="], 0, "");
 }
 
 #[test]
