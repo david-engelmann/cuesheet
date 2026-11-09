@@ -1734,6 +1734,30 @@
     "stdout": "",
     "stderr": "error: the catalogue file - cannot be read\n"
    }
+  },
+  {
+   "name": "help-after-extra-value-in-sheet",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet",
+    "c.catalogue",
+    "c.context",
+    "partial.context",
+    "-h"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "Usage: cuesheet sheet <CATALOGUE> <CONTEXT>\n\nArguments:\n  <CATALOGUE>  \n  <CONTEXT>    \n\nOptions:\n  -h, --help  Print help\n",
+    "stderr": ""
+   }
   }
  ]
 }
