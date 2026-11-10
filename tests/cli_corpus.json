@@ -2010,7 +2010,7 @@
     "empty.context": "context mini p\nfact last = none\n",
     "bad.catalogue": "catalogue mini\nwander off\n",
     "bad.context": "context mini\n",
-    "dupaction.catalogue": "catalogue dupact\nfact tools set-of read, edit\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction alpha\n"
+    "dupaction.catalogue": "catalogue dupact\nfact tools set-of read, edit\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction alpha\nrequires tools has edit\nfires alpha fires text\nfires-in-turn alpha turn text\n"
    },
    "argv": [
     "catalogue",
@@ -2252,7 +2252,7 @@
     "empty.context": "context mini p\nfact last = none\n",
     "bad.catalogue": "catalogue mini\nwander off\n",
     "bad.context": "context mini\n",
-    "shortreq.catalogue": "catalogue shortreq\nfact tools set-of read, edit\naction alpha\nrequires tools has\n"
+    "shortreq.catalogue": "catalogue shortreq\nfact tools set-of read, edit\naction alpha\nrequires tools has\nfires alpha fires text\nfires-in-turn alpha turn text\n"
    },
    "argv": [
     "catalogue",
