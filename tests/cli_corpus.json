@@ -2263,6 +2263,96 @@
     "stdout": "",
     "stderr": "error: shortreq.catalogue is malformed, the line requires tools has matches no catalogue line form\n"
    }
+  },
+  {
+   "name": "gaps-late-failure",
+   "source": "oracle",
+   "setup": {
+    "late.catalogue": "catalogue late\nfact tools set-of read, edit\nfact window values inside, outside\naction late\nrequires tools has read\nrequires window is inside\nfires late fires text\nfires-in-turn late turn text\n",
+    "late.context": "context late p\nfact tools = read\nfact window = outside\n"
+   },
+   "argv": [
+    "gaps",
+    "late.catalogue",
+    "late.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "gaps late p\ngap late\nblocked window is inside, recorded outside\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "gaps-mixed-forms",
+   "source": "oracle",
+   "setup": {
+    "mixed.catalogue": "catalogue mixed\nfact tools set-of read, edit\nfact level values low, high\naction mixed\nrequires level is high\nrequires tools has edit\nfires mixed fires text\nfires-in-turn mixed turn text\n",
+    "mixed.context": "context mixed p\nfact tools = read\n"
+   },
+   "argv": [
+    "gaps",
+    "mixed.catalogue",
+    "mixed.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "gaps mixed p\ngap mixed\nblocked level is high, not recorded\nblocked tools has edit, recorded read\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "gaps-is-not-blocked",
+   "source": "oracle",
+   "setup": {
+    "isnot.catalogue": "catalogue isnot\nfact mode values quiet, loud\naction hush\nrequires mode is-not loud\nfires hush fires text\nfires-in-turn hush turn text\n",
+    "isnot.context": "context isnot p\nfact mode = loud\n"
+   },
+   "argv": [
+    "gaps",
+    "isnot.catalogue",
+    "isnot.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "gaps isnot p\ngap hush\nblocked mode is-not loud, recorded loud\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "gaps-lacks-blocked",
+   "source": "oracle",
+   "setup": {
+    "lacks.catalogue": "catalogue lacks\nfact tools set-of read, edit, spawn\naction plain\nrequires tools lacks spawn\nfires plain fires text\nfires-in-turn plain turn text\n",
+    "lacks.context": "context lacks p\nfact tools = read, spawn\n"
+   },
+   "argv": [
+    "gaps",
+    "lacks.catalogue",
+    "lacks.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "gaps lacks p\ngap plain\nblocked tools lacks spawn, recorded read, spawn\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "gaps-empty-catalogue",
+   "source": "oracle",
+   "setup": {
+    "empty.catalogue": "catalogue empty\nfact tools set-of read, edit\nfact window values inside, outside\n",
+    "empty.context": "context empty p\nfact tools = read\nfact window = inside\n"
+   },
+   "argv": [
+    "gaps",
+    "empty.catalogue",
+    "empty.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "gaps empty p\n",
+    "stderr": ""
+   }
   }
  ]
 }
