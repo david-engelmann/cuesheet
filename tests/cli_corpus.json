@@ -2955,6 +2955,125 @@
     "stdout": "",
     "stderr": "error: firesbare.catalogue is malformed, the line fires matches no catalogue line form\n"
    }
+  },
+  {
+   "name": "sheet-context-head-word",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "lineform.context": "context mini p\nwander off\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "headword.context": "ctx mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n"
+   },
+   "argv": [
+    "sheet",
+    "c.catalogue",
+    "headword.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: headword.context is malformed, the first line does not name the harness and the decision point\n"
+   }
+  },
+  {
+   "name": "sheet-context-line-word",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "lineform.context": "context mini p\nwander off\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "lineword.context": "context mini p\nnote tools = read, edit\nfact window = inside\nfact last = read\n"
+   },
+   "argv": [
+    "sheet",
+    "c.catalogue",
+    "lineword.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: lineword.context is malformed, the line note tools = read, edit matches no context line form\n"
+   }
+  },
+  {
+   "name": "sheet-context-line-marker",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "lineform.context": "context mini p\nwander off\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "linemarker.context": "context mini p\nfact tools is read\nfact window = inside\nfact last = read\n"
+   },
+   "argv": [
+    "sheet",
+    "c.catalogue",
+    "linemarker.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: linemarker.context is malformed, the line fact tools is read matches no context line form\n"
+   }
+  },
+  {
+   "name": "sheet-context-line-short",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "lineform.context": "context mini p\nwander off\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "lineshort.context": "context mini p\nfact tools =\nfact window = inside\nfact last = read\n"
+   },
+   "argv": [
+    "sheet",
+    "c.catalogue",
+    "lineshort.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: lineshort.context is malformed, the line fact tools = matches no context line form\n"
+   }
+  },
+  {
+   "name": "catalogue-fires-in-turn-bare",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "lineform.context": "context mini p\nwander off\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "oneword.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n"
+   },
+   "argv": [
+    "catalogue",
+    "oneword.catalogue"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: oneword.catalogue is malformed, the line fires-in-turn matches no catalogue line form\n"
+   }
   }
  ]
 }
