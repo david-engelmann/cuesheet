@@ -3311,6 +3311,114 @@
     "stdout": "gaps part p\ngap half\nblocked tools has edit, recorded read\ngap unmet\nblocked level is high, not recorded\n",
     "stderr": ""
    }
+  },
+  {
+   "name": "sheet-set-repeats-absorbed",
+   "source": "oracle",
+   "argv": [
+    "sheet",
+    "c.catalogue",
+    "c.context"
+   ],
+   "setup": {
+    "c.catalogue": "catalogue fam\nfact tools set-of read, edit, write, reader\nfact window values inside, outside\naction combo\nrequires tools has read\nrequires window is inside\nfires combo fires text\nfires-in-turn combo turn text\naction guarded\nrequires tools lacks write\nfires guarded fires text\nfires-in-turn guarded turn text\naction needy\nrequires tools has write\nrequires window is inside\nfires needy fires text\nfires-in-turn needy turn text\n",
+    "c.context": "context fam p\nfact tools = edit, read, edit\nfact window = inside\n"
+   },
+   "expect": {
+    "code": 0,
+    "stdout": "sheet fam p\ncue combo\nfires combo fires text\nfires-in-turn combo turn text\nevidence tools has read, recorded edit, read\nevidence window is inside, recorded inside\ncue guarded\nfires guarded fires text\nfires-in-turn guarded turn text\nevidence tools lacks write, recorded edit, read\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "sheet-set-single-token-repeat",
+   "source": "oracle",
+   "argv": [
+    "sheet",
+    "c.catalogue",
+    "c.context"
+   ],
+   "setup": {
+    "c.catalogue": "catalogue fam\nfact tools set-of read, edit, write, reader\nfact window values inside, outside\naction combo\nrequires tools has read\nrequires window is inside\nfires combo fires text\nfires-in-turn combo turn text\naction guarded\nrequires tools lacks write\nfires guarded fires text\nfires-in-turn guarded turn text\naction needy\nrequires tools has write\nrequires window is inside\nfires needy fires text\nfires-in-turn needy turn text\n",
+    "c.context": "context fam p\nfact tools = read, read, read\nfact window = inside\n"
+   },
+   "expect": {
+    "code": 0,
+    "stdout": "sheet fam p\ncue combo\nfires combo fires text\nfires-in-turn combo turn text\nevidence tools has read, recorded read\nevidence window is inside, recorded inside\ncue guarded\nfires guarded fires text\nfires-in-turn guarded turn text\nevidence tools lacks write, recorded read\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "gaps-lacks-fails-on-present",
+   "source": "oracle",
+   "argv": [
+    "gaps",
+    "c.catalogue",
+    "c.context"
+   ],
+   "setup": {
+    "c.catalogue": "catalogue fam\nfact tools set-of read, edit, write, reader\nfact window values inside, outside\naction combo\nrequires tools has read\nrequires window is inside\nfires combo fires text\nfires-in-turn combo turn text\naction guarded\nrequires tools lacks write\nfires guarded fires text\nfires-in-turn guarded turn text\naction needy\nrequires tools has write\nrequires window is inside\nfires needy fires text\nfires-in-turn needy turn text\n",
+    "c.context": "context fam p\nfact tools = read, write\nfact window = inside\n"
+   },
+   "expect": {
+    "code": 0,
+    "stdout": "gaps fam p\ngap guarded\nblocked tools lacks write, recorded read, write\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "gaps-set-and-scalar-blocked",
+   "source": "oracle",
+   "argv": [
+    "gaps",
+    "c.catalogue",
+    "c.context"
+   ],
+   "setup": {
+    "c.catalogue": "catalogue fam\nfact tools set-of read, edit, write, reader\nfact window values inside, outside\naction combo\nrequires tools has read\nrequires window is inside\nfires combo fires text\nfires-in-turn combo turn text\naction guarded\nrequires tools lacks write\nfires guarded fires text\nfires-in-turn guarded turn text\naction needy\nrequires tools has write\nrequires window is inside\nfires needy fires text\nfires-in-turn needy turn text\n",
+    "c.context": "context fam p\nfact tools = read\nfact window = outside\n"
+   },
+   "expect": {
+    "code": 0,
+    "stdout": "gaps fam p\ngap combo\nblocked window is inside, recorded outside\ngap needy\nblocked tools has write, recorded read\nblocked window is inside, recorded outside\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "gaps-has-fails-renders-set",
+   "source": "oracle",
+   "argv": [
+    "gaps",
+    "c.catalogue",
+    "c.context"
+   ],
+   "setup": {
+    "c.catalogue": "catalogue fam\nfact tools set-of read, edit, write, reader\nfact window values inside, outside\naction combo\nrequires tools has read\nrequires window is inside\nfires combo fires text\nfires-in-turn combo turn text\naction guarded\nrequires tools lacks write\nfires guarded fires text\nfires-in-turn guarded turn text\naction needy\nrequires tools has write\nrequires window is inside\nfires needy fires text\nfires-in-turn needy turn text\n",
+    "c.context": "context fam p\nfact tools = edit, read\nfact window = inside\n"
+   },
+   "expect": {
+    "code": 0,
+    "stdout": "gaps fam p\ngap needy\nblocked tools has write, recorded edit, read\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "gaps-token-prefix-not-member",
+   "source": "oracle",
+   "argv": [
+    "gaps",
+    "c.catalogue",
+    "c.context"
+   ],
+   "setup": {
+    "c.catalogue": "catalogue fam\nfact tools set-of read, edit, write, reader\nfact window values inside, outside\naction combo\nrequires tools has read\nrequires window is inside\nfires combo fires text\nfires-in-turn combo turn text\naction guarded\nrequires tools lacks write\nfires guarded fires text\nfires-in-turn guarded turn text\naction needy\nrequires tools has write\nrequires window is inside\nfires needy fires text\nfires-in-turn needy turn text\n",
+    "c.context": "context fam p\nfact tools = reader\nfact window = inside\n"
+   },
+   "expect": {
+    "code": 0,
+    "stdout": "gaps fam p\ngap combo\nblocked tools has read, recorded reader\ngap needy\nblocked tools has write, recorded reader\n",
+    "stderr": ""
+   }
   }
  ]
 }
