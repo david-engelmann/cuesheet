@@ -3203,6 +3203,114 @@
     "stdout": "sheet shorty start\ncue alpha\nfires alpha\nfires-in-turn alpha\nevidence tools has read, recorded read\n",
     "stderr": ""
    }
+  },
+  {
+   "name": "sheet-name-order-against-declaration",
+   "source": "oracle",
+   "setup": {
+    "o.catalogue": "catalogue order\nfact window values inside, outside\naction zeta\nrequires window is inside\nfires zeta fires text\nfires-in-turn zeta turn text\naction alpha\nrequires window is inside\nfires alpha fires text\nfires-in-turn alpha turn text\n",
+    "o.context": "context order p\nfact window = inside\n"
+   },
+   "argv": [
+    "sheet",
+    "o.catalogue",
+    "o.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "sheet order p\ncue alpha\nfires alpha fires text\nfires-in-turn alpha turn text\nevidence window is inside, recorded inside\ncue zeta\nfires zeta fires text\nfires-in-turn zeta turn text\nevidence window is inside, recorded inside\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "sheet-name-codepoint-order",
+   "source": "oracle",
+   "setup": {
+    "p.catalogue": "catalogue points\nfact window values inside, outside\naction alpha-2\nrequires window is inside\nfires a2 fires text\nfires-in-turn a2 turn text\naction alpha-10\nrequires window is inside\nfires a10 fires text\nfires-in-turn a10 turn text\n",
+    "p.context": "context points p\nfact window = inside\n"
+   },
+   "argv": [
+    "sheet",
+    "p.catalogue",
+    "p.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "sheet points p\ncue alpha-10\nfires a10 fires text\nfires-in-turn a10 turn text\nevidence window is inside, recorded inside\ncue alpha-2\nfires a2 fires text\nfires-in-turn a2 turn text\nevidence window is inside, recorded inside\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "sheet-negative-tests-pass",
+   "source": "oracle",
+   "setup": {
+    "n.catalogue": "catalogue neg\nfact tools set-of read, edit\nfact window values inside, outside\naction calm\nrequires window is-not outside\nfires calm fires text\nfires-in-turn calm turn text\naction spare\nrequires tools lacks edit\nfires spare fires text\nfires-in-turn spare turn text\n",
+    "n.context": "context neg p\nfact tools = read\nfact window = inside\n"
+   },
+   "argv": [
+    "sheet",
+    "n.catalogue",
+    "n.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "sheet neg p\ncue calm\nfires calm fires text\nfires-in-turn calm turn text\nevidence window is-not outside, recorded inside\ncue spare\nfires spare fires text\nfires-in-turn spare turn text\nevidence tools lacks edit, recorded read\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "sheet-one-fact-two-tests",
+   "source": "oracle",
+   "setup": {
+    "d.catalogue": "catalogue duo\nfact tools set-of read, edit, run\naction duo\nrequires tools has read\nrequires tools has edit\nfires duo fires text\nfires-in-turn duo turn text\n",
+    "d.context": "context duo p\nfact tools = run, read, edit\n"
+   },
+   "argv": [
+    "sheet",
+    "d.catalogue",
+    "d.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "sheet duo p\ncue duo\nfires duo fires text\nfires-in-turn duo turn text\nevidence tools has read, recorded edit, read, run\nevidence tools has edit, recorded edit, read, run\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "sheet-partition-views",
+   "source": "oracle",
+   "setup": {
+    "part.catalogue": "catalogue part\nfact tools set-of read, edit\nfact window values inside, outside\nfact level values low, high\naction avail\nrequires tools has read\nfires avail fires text\nfires-in-turn avail turn text\naction half\nrequires tools has edit\nrequires window is inside\nfires half fires text\nfires-in-turn half turn text\naction unmet\nrequires level is high\nfires unmet fires text\nfires-in-turn unmet turn text\n",
+    "part.context": "context part p\nfact tools = read\nfact window = inside\n"
+   },
+   "argv": [
+    "sheet",
+    "part.catalogue",
+    "part.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "sheet part p\ncue avail\nfires avail fires text\nfires-in-turn avail turn text\nevidence tools has read, recorded read\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "gaps-partition-views",
+   "source": "oracle",
+   "setup": {
+    "part.catalogue": "catalogue part\nfact tools set-of read, edit\nfact window values inside, outside\nfact level values low, high\naction avail\nrequires tools has read\nfires avail fires text\nfires-in-turn avail turn text\naction half\nrequires tools has edit\nrequires window is inside\nfires half fires text\nfires-in-turn half turn text\naction unmet\nrequires level is high\nfires unmet fires text\nfires-in-turn unmet turn text\n",
+    "part.context": "context part p\nfact tools = read\nfact window = inside\n"
+   },
+   "argv": [
+    "gaps",
+    "part.catalogue",
+    "part.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "gaps part p\ngap half\nblocked tools has edit, recorded read\ngap unmet\nblocked level is high, not recorded\n",
+    "stderr": ""
+   }
   }
  ]
 }
