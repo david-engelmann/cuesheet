@@ -369,7 +369,7 @@ CU-91. This round appends the six cases of CU-89 and the contract sections of th
 
 ## Round 20 preamble
 
-The round fires the path spelling rule behind every file read the tool makes. Every read opens the normalized spelling of the path as written and names the path as written in every refusal, and the corpus had only ever read through plain spellings under which the two forms agree. The rule itself, and what this round stages against it, stands in CU-92.
+The round fires the path spelling rule behind every file read the tool makes. Every read opens the normalized spelling of the path as written and names the path as written in every refusal, and the corpus had only ever read through plain spellings under which the two forms agree. The rule itself, and what this round stages against it, stands in CU-92. The operating system behaviour the rule rests on stands probed in this round’s own runs on this Linux runtime, where the built binary read every trailing spelling of CU-93 successfully under the normalization, and the same reads failed outright when the normalization stood struck in the runs of CU-94, the written spellings refusing at the open.
 
 ## Round 20 obligations
 
