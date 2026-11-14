@@ -3890,6 +3890,108 @@
     "stdout": "",
     "stderr": "error: headextra.context is malformed, the first line does not name the harness and the decision point\n"
    }
+  },
+  {
+   "name": "catalogue-single-option",
+   "source": "oracle",
+   "setup": {
+    "solo.catalogue": "catalogue solo\nfact mode values auto\nfact tools set-of read, edit\naction alpha\nrequires mode is auto\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\n"
+   },
+   "argv": [
+    "catalogue",
+    "solo.catalogue"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "catalogue solo\nfact mode values auto\nfact tools set-of read, edit\naction alpha\nevidence mode is auto\nevidence tools has read\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "catalogue-action-both-forms",
+   "source": "oracle",
+   "setup": {
+    "both.catalogue": "catalogue both\nfact tools set-of read, edit\nfact window values inside, outside\naction alpha\nrequires window is inside\nrequires window is-not outside\nfires alpha fires text\nfires-in-turn alpha turn text\n"
+   },
+   "argv": [
+    "catalogue",
+    "both.catalogue"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "catalogue both\nfact tools set-of read, edit\nfact window values inside, outside\naction alpha\nevidence window is inside\nevidence window is-not outside\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "catalogue-action-named-as-fact",
+   "source": "oracle",
+   "setup": {
+    "same.catalogue": "catalogue same\nfact tools set-of read, edit\nfact window values inside, outside\naction tools\nrequires tools has read\nfires tools fires text\nfires-in-turn tools turn text\n"
+   },
+   "argv": [
+    "catalogue",
+    "same.catalogue"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "catalogue same\nfact tools set-of read, edit\nfact window values inside, outside\naction tools\nevidence tools has read\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "gaps-blocked-sandwich",
+   "source": "oracle",
+   "setup": {
+    "mini.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\naction alpha\nrequires tools has read\nrequires window is inside\nrequires tools lacks edit\nrequires window is-not outside\nfires alpha fires text\nfires-in-turn alpha turn text\n",
+    "sand.context": "context mini p\nfact tools = read\nfact window = outside\n"
+   },
+   "argv": [
+    "gaps",
+    "mini.catalogue",
+    "sand.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "gaps mini p\ngap alpha\nblocked window is inside, recorded outside\nblocked window is-not outside, recorded outside\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "sheet-four-forms-one-action",
+   "source": "oracle",
+   "setup": {
+    "mini.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires window is inside\nrequires tools has read\nrequires window is-not outside\nrequires tools lacks edit\nrequires last is read\nfires alpha fires text\nfires-in-turn alpha turn text\n",
+    "four.context": "context mini p\nfact tools = read\nfact window = inside\nfact last = read\n"
+   },
+   "argv": [
+    "sheet",
+    "mini.catalogue",
+    "four.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "sheet mini p\ncue alpha\nfires alpha fires text\nfires-in-turn alpha turn text\nevidence window is inside, recorded inside\nevidence tools has read, recorded read\nevidence window is-not outside, recorded inside\nevidence tools lacks edit, recorded read\nevidence last is read, recorded read\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "sheet-fires-lines-swapped",
+   "source": "oracle",
+   "setup": {
+    "mini.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\naction alpha\nrequires tools has read\nfires-in-turn alpha turn text\nfires alpha fires text\n",
+    "swap.context": "context mini p\nfact tools = read, edit\nfact window = inside\n"
+   },
+   "argv": [
+    "sheet",
+    "mini.catalogue",
+    "swap.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "sheet mini p\ncue alpha\nfires alpha fires text\nfires-in-turn alpha turn text\nevidence tools has read, recorded edit, read\n",
+    "stderr": ""
+   }
   }
  ]
 }
