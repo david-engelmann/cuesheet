@@ -4208,6 +4208,138 @@
     "stdout": "gaps fam p\ngap echo\nblocked tags has token-a, not recorded\nblocked tags lacks token-a, not recorded\n",
     "stderr": ""
    }
+  },
+  {
+   "name": "sheet-negative-trailing-newline",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet",
+    "-1\n",
+    "c.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: the catalogue file -1\n cannot be read\n"
+   }
+  },
+  {
+   "name": "sheet-negative-double-newline",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet",
+    "-1\n\n",
+    "c.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: unexpected argument '-1' found\n\n  tip: to pass '-1' as a value, use '-- -1'\n\nUsage: cuesheet sheet <CATALOGUE> <CONTEXT>\n\nFor more information, try '--help'.\n"
+   }
+  },
+  {
+   "name": "sheet-negative-mixed-scripts",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet",
+    "-1٢",
+    "c.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: the catalogue file -1٢ cannot be read\n"
+   }
+  },
+  {
+   "name": "sheet-negative-mixed-across-dot",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet",
+    "-١.5",
+    "c.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: the catalogue file -١.5 cannot be read\n"
+   }
+  },
+  {
+   "name": "sheet-negative-astral-digit",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet",
+    "-𐒡",
+    "c.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: the catalogue file -𐒡 cannot be read\n"
+   }
+  },
+  {
+   "name": "sheet-negative-boundary-nondigit",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet",
+    "-॰",
+    "c.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: unexpected argument '-॰' found\n\n  tip: to pass '-॰' as a value, use '-- -॰'\n\nUsage: cuesheet sheet <CATALOGUE> <CONTEXT>\n\nFor more information, try '--help'.\n"
+   }
   }
  ]
 }
