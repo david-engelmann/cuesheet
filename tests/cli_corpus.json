@@ -3992,6 +3992,114 @@
     "stdout": "sheet mini p\ncue alpha\nfires alpha fires text\nfires-in-turn alpha turn text\nevidence tools has read, recorded edit, read\n",
     "stderr": ""
    }
+  },
+  {
+   "name": "gaps-same-fact-twice-split",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue fam\nfact tools set-of read, edit, write\nfact window values inside, outside\naction alpha\nrequires tools has read\nrequires tools has edit\nfires alpha fires text\nfires-in-turn alpha turn text\n",
+    "c.context": "context fam p\nfact tools = read\nfact window = inside\n"
+   },
+   "argv": [
+    "gaps",
+    "c.catalogue",
+    "c.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "gaps fam p\ngap alpha\nblocked tools has edit, recorded read\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "gaps-is-not-unrecorded",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue fam\nfact tools set-of read, edit, write\nfact window values inside, outside\naction alpha\nrequires window is-not outside\nfires alpha fires text\nfires-in-turn alpha turn text\n",
+    "c.context": "context fam p\nfact tools = read\n"
+   },
+   "argv": [
+    "gaps",
+    "c.catalogue",
+    "c.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "gaps fam p\ngap alpha\nblocked window is-not outside, not recorded\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "gaps-recorded-set-sorted",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue fam\nfact tools set-of read, edit, write\nfact window values inside, outside\naction alpha\nrequires tools has edit\nfires alpha fires text\nfires-in-turn alpha turn text\n",
+    "c.context": "context fam p\nfact tools = write, read\nfact window = inside\n"
+   },
+   "argv": [
+    "gaps",
+    "c.catalogue",
+    "c.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "gaps fam p\ngap alpha\nblocked tools has edit, recorded read, write\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "gaps-all-actions-blocked",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue fam\nfact tools set-of read, edit, write\nfact window values inside, outside\naction gamma\nrequires tools lacks read\nfires gamma fires text\nfires-in-turn gamma turn text\naction beta\nrequires tools has edit\nfires beta fires text\nfires-in-turn beta turn text\naction alpha\nrequires window is inside\nfires alpha fires text\nfires-in-turn alpha turn text\n",
+    "c.context": "context fam p\nfact tools = read\nfact window = outside\n"
+   },
+   "argv": [
+    "gaps",
+    "c.catalogue",
+    "c.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "gaps fam p\ngap alpha\nblocked window is inside, recorded outside\ngap beta\nblocked tools has edit, recorded read\ngap gamma\nblocked tools lacks read, recorded read\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "gaps-shared-blocker",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue fam\nfact tools set-of read, edit, write\nfact window values inside, outside\naction beta\nrequires window is inside\nrequires tools has read\nfires beta fires text\nfires-in-turn beta turn text\naction alpha\nrequires window is inside\nfires alpha fires text\nfires-in-turn alpha turn text\n",
+    "c.context": "context fam p\nfact tools = read\nfact window = outside\n"
+   },
+   "argv": [
+    "gaps",
+    "c.catalogue",
+    "c.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "gaps fam p\ngap alpha\nblocked window is inside, recorded outside\ngap beta\nblocked window is inside, recorded outside\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "gaps-lacks-passes-has-blocked",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue fam\nfact tools set-of read, edit, write\nfact window values inside, outside\naction alpha\nrequires tools lacks edit\nrequires tools has write\nfires alpha fires text\nfires-in-turn alpha turn text\n",
+    "c.context": "context fam p\nfact tools = read\nfact window = inside\n"
+   },
+   "argv": [
+    "gaps",
+    "c.catalogue",
+    "c.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "gaps fam p\ngap alpha\nblocked tools has write, recorded read\n",
+    "stderr": ""
+   }
   }
  ]
 }
