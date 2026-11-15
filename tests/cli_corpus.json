@@ -4051,7 +4051,7 @@
    "name": "gaps-all-actions-blocked",
    "source": "oracle",
    "setup": {
-    "c.catalogue": "catalogue fam\nfact tools set-of read, edit, write\nfact window values inside, outside\naction alpha\nrequires window is inside\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nfires beta fires text\nfires-in-turn beta turn text\naction gamma\nrequires tools lacks read\nfires gamma fires text\nfires-in-turn gamma turn text\n",
+    "c.catalogue": "catalogue fam\nfact tools set-of read, edit, write\nfact window values inside, outside\naction gamma\nrequires tools lacks read\nfires gamma fires text\nfires-in-turn gamma turn text\naction beta\nrequires tools has edit\nfires beta fires text\nfires-in-turn beta turn text\naction alpha\nrequires window is inside\nfires alpha fires text\nfires-in-turn alpha turn text\n",
     "c.context": "context fam p\nfact tools = read\nfact window = outside\n"
    },
    "argv": [
@@ -4069,7 +4069,7 @@
    "name": "gaps-shared-blocker",
    "source": "oracle",
    "setup": {
-    "c.catalogue": "catalogue fam\nfact tools set-of read, edit, write\nfact window values inside, outside\naction alpha\nrequires window is inside\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires window is inside\nrequires tools has read\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.catalogue": "catalogue fam\nfact tools set-of read, edit, write\nfact window values inside, outside\naction beta\nrequires window is inside\nrequires tools has read\nfires beta fires text\nfires-in-turn beta turn text\naction alpha\nrequires window is inside\nfires alpha fires text\nfires-in-turn alpha turn text\n",
     "c.context": "context fam p\nfact tools = read\nfact window = outside\n"
    },
    "argv": [
