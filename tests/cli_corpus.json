@@ -4100,6 +4100,114 @@
     "stdout": "gaps fam p\ngap alpha\nblocked tools has write, recorded read\n",
     "stderr": ""
    }
+  },
+  {
+   "name": "sheet-duplicate-test-one-line",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue fam\nfact mode values alpha, beta, gamma\naction echo\nrequires mode is alpha\nrequires mode is alpha\nfires echo fires text\nfires-in-turn echo turn text\n",
+    "c.context": "context fam p\nfact mode = alpha\n"
+   },
+   "argv": [
+    "sheet",
+    "c.catalogue",
+    "c.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "sheet fam p\ncue echo\nfires echo fires text\nfires-in-turn echo turn text\nevidence mode is alpha, recorded alpha\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "gaps-duplicate-test-one-line",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue fam\nfact mode values alpha, beta, gamma\naction echo\nrequires mode is alpha\nrequires mode is alpha\nfires echo fires text\nfires-in-turn echo turn text\n",
+    "c.context": "context fam p\nfact mode = beta\n"
+   },
+   "argv": [
+    "gaps",
+    "c.catalogue",
+    "c.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "gaps fam p\ngap echo\nblocked mode is alpha, recorded beta\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "gaps-contradiction-half",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue fam\nfact mode values alpha, beta, gamma\naction echo\nrequires mode is alpha\nrequires mode is-not alpha\nfires echo fires text\nfires-in-turn echo turn text\n",
+    "c.context": "context fam p\nfact mode = alpha\n"
+   },
+   "argv": [
+    "gaps",
+    "c.catalogue",
+    "c.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "gaps fam p\ngap echo\nblocked mode is-not alpha, recorded alpha\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "gaps-contradiction-third-value",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue fam\nfact mode values alpha, beta, gamma\naction echo\nrequires mode is alpha\nrequires mode is-not alpha\nfires echo fires text\nfires-in-turn echo turn text\n",
+    "c.context": "context fam p\nfact mode = gamma\n"
+   },
+   "argv": [
+    "gaps",
+    "c.catalogue",
+    "c.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "gaps fam p\ngap echo\nblocked mode is alpha, recorded gamma\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "gaps-set-contradiction-present",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue fam\nfact tags set-of token-a, token-b\naction echo\nrequires tags has token-a\nrequires tags lacks token-a\nfires echo fires text\nfires-in-turn echo turn text\n",
+    "c.context": "context fam p\nfact tags = token-a\n"
+   },
+   "argv": [
+    "gaps",
+    "c.catalogue",
+    "c.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "gaps fam p\ngap echo\nblocked tags lacks token-a, recorded token-a\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "gaps-set-contradiction-unrecorded",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue fam\nfact tags set-of token-a, token-b\naction echo\nrequires tags has token-a\nrequires tags lacks token-a\nfires echo fires text\nfires-in-turn echo turn text\n",
+    "c.context": "context fam p\n"
+   },
+   "argv": [
+    "gaps",
+    "c.catalogue",
+    "c.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "gaps fam p\ngap echo\nblocked tags has token-a, not recorded\nblocked tags lacks token-a, not recorded\n",
+    "stderr": ""
+   }
   }
  ]
 }
