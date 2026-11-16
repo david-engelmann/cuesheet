@@ -4616,6 +4616,147 @@
     "stdout": "",
     "stderr": "error: pairfires.catalogue is malformed, the action alpha carries two fires lines\n"
    }
+  },
+  {
+   "name": "sheet-bad-catalogue-missing-context",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "dir.catalogue/inner.txt": "inner\n"
+   },
+   "argv": [
+    "sheet",
+    "bad.catalogue",
+    "absent.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: bad.catalogue is malformed, the line wander off matches no catalogue line form\n"
+   }
+  },
+  {
+   "name": "sheet-bad-catalogue-bad-context",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "dir.catalogue/inner.txt": "inner\n"
+   },
+   "argv": [
+    "sheet",
+    "bad.catalogue",
+    "bad.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: bad.catalogue is malformed, the line wander off matches no catalogue line form\n"
+   }
+  },
+  {
+   "name": "gaps-missing-catalogue-bad-context",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "dir.catalogue/inner.txt": "inner\n"
+   },
+   "argv": [
+    "gaps",
+    "absent.catalogue",
+    "bad.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: the catalogue file absent.catalogue cannot be read\n"
+   }
+  },
+  {
+   "name": "sheet-catalogue-is-dir-bad-context",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "dir.catalogue/inner.txt": "inner\n"
+   },
+   "argv": [
+    "sheet",
+    "dir.catalogue",
+    "bad.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: the catalogue file dir.catalogue cannot be read\n"
+   }
+  },
+  {
+   "name": "gaps-context-is-dir",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "dir.catalogue/inner.txt": "inner\n",
+    "dir.context/inner.txt": "inner\n"
+   },
+   "argv": [
+    "gaps",
+    "c.catalogue",
+    "dir.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: the context file dir.context cannot be read\n"
+   }
+  },
+  {
+   "name": "gaps-one-fact-two-has-split",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "dir.catalogue/inner.txt": "inner\n",
+    "split.catalogue": "catalogue split\nfact tools set-of read, edit, run\naction duo\nrequires tools has read\nrequires tools has edit\nfires duo fires text\nfires-in-turn duo turn text\n",
+    "split.context": "context split p\nfact tools = read\n"
+   },
+   "argv": [
+    "gaps",
+    "split.catalogue",
+    "split.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "gaps split p\ngap duo\nblocked tools has edit, recorded read\n",
+    "stderr": ""
+   }
   }
  ]
 }
