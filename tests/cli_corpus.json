@@ -4484,6 +4484,138 @@
     "stdout": "",
     "stderr": "error: undecltwice.context is malformed, the fact bogus is one the catalogue never declares\n"
    }
+  },
+  {
+   "name": "catalogue-fact-twice-after-action",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "pairfact.catalogue": "catalogue pair\nfact tools set-of read, edit\nfact window values inside, outside\naction alpha\nrequires tools has read\nfact tools set-of write\nfires alpha fires text\nfires-in-turn alpha turn text\n"
+   },
+   "argv": [
+    "catalogue",
+    "pairfact.catalogue"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: pairfact.catalogue is malformed, the fact tools is declared after the first action\n"
+   }
+  },
+  {
+   "name": "catalogue-fact-twice-empty-value",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "pairtwice.catalogue": "catalogue pair\nfact tools set-of read, edit\nfact window values inside, outside\nfact tools set-of read,, edit\n"
+   },
+   "argv": [
+    "catalogue",
+    "pairtwice.catalogue"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: pairtwice.catalogue is malformed, the fact tools is declared twice\n"
+   }
+  },
+  {
+   "name": "catalogue-fact-bad-kind-after-action",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "pairkind.catalogue": "catalogue pair\nfact tools set-of read, edit\nfact window values inside, outside\naction alpha\nrequires tools has read\nfact window bogus inside, outside\nfires alpha fires text\nfires-in-turn alpha turn text\n"
+   },
+   "argv": [
+    "catalogue",
+    "pairkind.catalogue"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: pairkind.catalogue is malformed, the line fact window bogus inside, outside matches no catalogue line form\n"
+   }
+  },
+  {
+   "name": "catalogue-two-turn-before-no-fires",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "pairturn.catalogue": "catalogue pair\nfact tools set-of read, edit\nfact window values inside, outside\naction alpha\nrequires tools has read\nfires-in-turn first text\nfires-in-turn second text\n"
+   },
+   "argv": [
+    "catalogue",
+    "pairturn.catalogue"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: pairturn.catalogue is malformed, the action alpha carries two fires-in-turn lines\n"
+   }
+  },
+  {
+   "name": "catalogue-action-twice-no-test",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "pairtwiceaction.catalogue": "catalogue pair\nfact tools set-of read, edit\nfact window values inside, outside\naction alpha\nfires alpha fires text\nfires-in-turn alpha turn text\naction alpha\n"
+   },
+   "argv": [
+    "catalogue",
+    "pairtwiceaction.catalogue"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: pairtwiceaction.catalogue is malformed, the action alpha carries no rule test\n"
+   }
+  },
+  {
+   "name": "catalogue-two-fires-before-no-turn",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "pairfires.catalogue": "catalogue pair\nfact tools set-of read, edit\nfact window values inside, outside\naction alpha\nrequires tools has read\nfires first text\nfires second text\n"
+   },
+   "argv": [
+    "catalogue",
+    "pairfires.catalogue"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: pairfires.catalogue is malformed, the action alpha carries two fires lines\n"
+   }
   }
  ]
 }
