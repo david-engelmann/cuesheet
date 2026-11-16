@@ -4340,6 +4340,150 @@
     "stdout": "",
     "stderr": "error: unexpected argument '-॰' found\n\n  tip: to pass '-॰' as a value, use '-- -॰'\n\nUsage: cuesheet sheet <CATALOGUE> <CONTEXT>\n\nFor more information, try '--help'.\n"
    }
+  },
+  {
+   "name": "sheet-context-form-before-undeclared",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "twice.context": "context mini p\nfact tools = read\nfact tools = edit\nfact window = inside\nfact last = read\n",
+    "formundecl.context": "context mini p\nfact bogus is read\n"
+   },
+   "argv": [
+    "sheet",
+    "c.catalogue",
+    "formundecl.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: formundecl.context is malformed, the line fact bogus is read matches no context line form\n"
+   }
+  },
+  {
+   "name": "sheet-context-twice-before-empty-token",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "twice.context": "context mini p\nfact tools = read\nfact tools = edit\nfact window = inside\nfact last = read\n",
+    "twiceempty.context": "context mini p\nfact tools = read\nfact tools = read,,edit\n"
+   },
+   "argv": [
+    "sheet",
+    "c.catalogue",
+    "twiceempty.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: twiceempty.context is malformed, the fact tools is recorded twice\n"
+   }
+  },
+  {
+   "name": "sheet-context-mismatch-before-line-form",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "twice.context": "context mini p\nfact tools = read\nfact tools = edit\nfact window = inside\nfact last = read\n",
+    "mismatchform.context": "context other p\nwander off\n"
+   },
+   "argv": [
+    "sheet",
+    "c.catalogue",
+    "mismatchform.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: mismatchform.context names the harness other and the catalogue names mini, and a sheet is defined only over one harness family\n"
+   }
+  },
+  {
+   "name": "sheet-context-first-bad-token-named",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "twice.context": "context mini p\nfact tools = read\nfact tools = edit\nfact window = inside\nfact last = read\n",
+    "firstbad.context": "context mini p\nfact tools = fly, swim\n"
+   },
+   "argv": [
+    "sheet",
+    "c.catalogue",
+    "firstbad.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: firstbad.context is malformed, the fact tools carries the token fly, which the catalogue never declares for it\n"
+   }
+  },
+  {
+   "name": "sheet-context-second-bad-token-named",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "twice.context": "context mini p\nfact tools = read\nfact tools = edit\nfact window = inside\nfact last = read\n",
+    "secondbad.context": "context mini p\nfact tools = swim, fly\n"
+   },
+   "argv": [
+    "sheet",
+    "c.catalogue",
+    "secondbad.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: secondbad.context is malformed, the fact tools carries the token swim, which the catalogue never declares for it\n"
+   }
+  },
+  {
+   "name": "sheet-context-undeclared-before-twice",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "twice.context": "context mini p\nfact tools = read\nfact tools = edit\nfact window = inside\nfact last = read\n",
+    "undecltwice.context": "context mini p\nfact bogus = x\nfact bogus = y\n"
+   },
+   "argv": [
+    "sheet",
+    "c.catalogue",
+    "undecltwice.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: undecltwice.context is malformed, the fact bogus is one the catalogue never declares\n"
+   }
   }
  ]
 }
