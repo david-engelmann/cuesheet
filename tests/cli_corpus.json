@@ -4893,6 +4893,144 @@
     "stdout": "",
     "stderr": "error: unexpected argument '--help=x' found\n\nUsage: cuesheet sheet <CATALOGUE> <CONTEXT>\n\nFor more information, try '--help'.\n"
    }
+  },
+  {
+   "name": "sheet-crlf-endings",
+   "source": "oracle",
+   "setup": {
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "crlf.catalogue": "catalogue mini\r\nfact tools set-of read, edit\r\nfact window values inside, outside\r\nfact last values none, read\r\naction alpha\r\nrequires tools has read\r\nfires alpha fires text\r\nfires-in-turn alpha turn text\r\naction beta\r\nrequires tools has edit\r\nrequires window is inside\r\nfires beta fires text\r\nfires-in-turn beta turn text\r\n",
+    "crlf.context": "context mini p\r\nfact tools = read, edit\r\nfact window = inside\r\nfact last = read\r\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n"
+   },
+   "argv": [
+    "sheet",
+    "crlf.catalogue",
+    "crlf.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "sheet mini p\ncue alpha\nfires alpha fires text\nfires-in-turn alpha turn text\nevidence tools has read, recorded edit, read\ncue beta\nfires beta fires text\nfires-in-turn beta turn text\nevidence tools has edit, recorded edit, read\nevidence window is inside, recorded inside\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "catalogue-tab-separated",
+   "source": "oracle",
+   "setup": {
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "tabs.catalogue": "catalogue\tmini\nfact\ttools\tset-of\tread,\tedit\nfact\twindow\tvalues\tinside,\toutside\n  fact\tlast\tvalues\tnone,\tread\naction\talpha\nrequires\ttools\thas\tread\nfires\talpha fires text\nfires-in-turn\talpha turn text\n\naction\tbeta\nrequires\ttools\thas\tedit\nrequires\twindow\tis\tinside\nfires\tbeta fires text\nfires-in-turn\tbeta turn text\n"
+   },
+   "argv": [
+    "catalogue",
+    "tabs.catalogue"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nevidence tools has read\naction beta\nevidence tools has edit\nevidence window is inside\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "sheet-nbsp-context",
+   "source": "oracle",
+   "setup": {
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "nbsp.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n"
+   },
+   "argv": [
+    "sheet",
+    "c.catalogue",
+    "nbsp.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "sheet mini p\ncue alpha\nfires alpha fires text\nfires-in-turn alpha turn text\nevidence tools has read, recorded edit, read\ncue beta\nfires beta fires text\nfires-in-turn beta turn text\nevidence tools has edit, recorded edit, read\nevidence window is inside, recorded inside\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "gaps-vt-ff-context",
+   "source": "oracle",
+   "setup": {
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "vtf.context": "context mini p\nfact\u000btools\f=\fread\nfact\fwindow\u000b=\u000boutside\nfact last = read\n"
+   },
+   "argv": [
+    "gaps",
+    "c.catalogue",
+    "vtf.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "gaps mini p\ngap beta\nblocked tools has edit, recorded read\nblocked window is inside, recorded outside\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "sheet-fs-separated",
+   "source": "oracle",
+   "setup": {
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "fs.context": "context\u001cmini\u001cp\nfact\u001ctools\u001c=\u001cread, edit\nfact window = inside\nfact\u001flast\u001f=\u001fread\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n"
+   },
+   "argv": [
+    "sheet",
+    "c.catalogue",
+    "fs.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "sheet mini p\ncue alpha\nfires alpha fires text\nfires-in-turn alpha turn text\nevidence tools has read, recorded edit, read\ncue beta\nfires beta fires text\nfires-in-turn beta turn text\nevidence tools has edit, recorded edit, read\nevidence window is inside, recorded inside\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "sheet-cr-only-context",
+   "source": "oracle",
+   "setup": {
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "cronly.context": "context mini p\rfact tools = read, edit\rfact window = inside\rfact last = read\r",
+    "empty.context": "context mini p\nfact last = none\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n"
+   },
+   "argv": [
+    "sheet",
+    "c.catalogue",
+    "cronly.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: cronly.context is malformed, the first line does not name the harness and the decision point\n"
+   }
   }
  ]
 }
