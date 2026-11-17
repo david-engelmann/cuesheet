@@ -518,7 +518,7 @@ CU-134. The README and the setup pin read 28 of 100 through this slice, and they
 
 ## Round 30 preamble
 
-This round takes the walk order of the argument scan (scan in src/argv.rs, as dispatched in src/main.rs) where help, refusals, and the separator distribution meet inside one invocation. The census and the cases stand in CU-135, the staged cases in CU-136, the order itself in CU-137, and the executed mutations in CU-138.
+This round takes the walk order of the argument scan (scan in src/argv.rs, as dispatched in src/main.rs) where help, refusals, and the separator distribution meet inside one invocation. The census and the cases stand in CU-135, the staged cases in CU-136, the order itself in CU-137, and the executed mutations in CU-138. The probe findings follow. Probed against the release binary, the root help fires ahead of an unknown subcommand and the refusal fires ahead of the root help, the attached help value and the cluster value refuse, and the listed slot cases refuse in the subcommand extras. One design prediction failed its probe, the listed slot help case was expected to print the sheet help at code 0 and the binary refuses it at code 2, and the case stands baked as probed in CU-136.
 
 ## Round 30 obligations
 
