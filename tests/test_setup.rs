@@ -345,7 +345,7 @@ fn the_one_description_stands_at_its_positions() {
     }
     assert_eq!(
         help_streams.len(),
-        10,
+        11,
         "the corpus must carry exactly ten root help expectations"
     );
     for text in help_streams {
