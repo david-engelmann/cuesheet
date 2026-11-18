@@ -5031,6 +5031,145 @@
     "stdout": "",
     "stderr": "error: cronly.context is malformed, the first line does not name the harness and the decision point\n"
    }
+  },
+  {
+   "name": "sheet-case-harness-mismatch",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "caseharness.context": "context Mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n"
+   },
+   "argv": [
+    "sheet",
+    "c.catalogue",
+    "caseharness.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: caseharness.context names the harness Mini and the catalogue names mini, and a sheet is defined only over one harness family\n"
+   }
+  },
+  {
+   "name": "gaps-case-value-mismatch",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "casevalue.context": "context mini p\nfact tools = read, edit\nfact window = Inside\nfact last = read\n"
+   },
+   "argv": [
+    "gaps",
+    "c.catalogue",
+    "casevalue.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: casevalue.context is malformed, the fact window is recorded as Inside, which the catalogue never declares for it\n"
+   }
+  },
+  {
+   "name": "sheet-case-token-mismatch",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "casetoken.context": "context mini p\nfact tools = Read, edit\nfact window = inside\nfact last = read\n"
+   },
+   "argv": [
+    "sheet",
+    "c.catalogue",
+    "casetoken.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: casetoken.context is malformed, the fact tools carries the token Read, which the catalogue never declares for it\n"
+   }
+  },
+  {
+   "name": "catalogue-case-facts-distinct",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "casefacts.catalogue": "catalogue casebook\nfact Tools set-of read, edit\nfact tools set-of read, edit\nfact window values inside, outside\naction Beta\nrequires Tools has edit\nrequires tools has read\nrequires window is inside\nfires Beta fires text\nfires-in-turn Beta turn text\n"
+   },
+   "argv": [
+    "catalogue",
+    "casefacts.catalogue"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "catalogue casebook\nfact Tools set-of read, edit\nfact tools set-of read, edit\nfact window values inside, outside\naction Beta\nevidence Tools has edit\nevidence tools has read\nevidence window is inside\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "sheet-case-name-order",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "caseorder.catalogue": "catalogue casebook\nfact mode values on, off\naction alpha\nrequires mode is on\nfires alpha fires text\nfires-in-turn alpha turn text\naction Zulu\nrequires mode is on\nfires Zulu fires text\nfires-in-turn Zulu turn text\n",
+    "caseorder.context": "context casebook p\nfact mode = on\n"
+   },
+   "argv": [
+    "sheet",
+    "caseorder.catalogue",
+    "caseorder.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "sheet casebook p\ncue Zulu\nfires Zulu fires text\nfires-in-turn Zulu turn text\nevidence mode is on, recorded on\ncue alpha\nfires alpha fires text\nfires-in-turn alpha turn text\nevidence mode is on, recorded on\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "gaps-case-set-sorted",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "caseset.catalogue": "catalogue casebook\nfact tools set-of Read, edit\naction alpha\nrequires tools has Read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools lacks Read\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "caseset.context": "context casebook p\nfact tools = edit, Read\n"
+   },
+   "argv": [
+    "gaps",
+    "caseset.catalogue",
+    "caseset.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "gaps casebook p\ngap beta\nblocked tools lacks Read, recorded Read, edit\n",
+    "stderr": ""
+   }
   }
  ]
 }
