@@ -5170,6 +5170,146 @@
     "stdout": "gaps casebook p\ngap beta\nblocked tools lacks Read, recorded Read, edit\n",
     "stderr": ""
    }
+  },
+  {
+   "name": "catalogue-spaced-options",
+   "source": "oracle",
+   "setup": {
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "spaced.catalogue": "catalogue spaced\nfact window values in  side, outside\nfact tools set-of read\tfile, edit\naction open\nrequires window is outside\nrequires tools has edit\nfires open fires text\nfires-in-turn open turn text\n"
+   },
+   "argv": [
+    "catalogue",
+    "spaced.catalogue"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "catalogue spaced\nfact window values in side, outside\nfact tools set-of read file, edit\naction open\nevidence window is outside\nevidence tools has edit\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "sheet-spaced-value-recorded",
+   "source": "oracle",
+   "setup": {
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "spaced.catalogue": "catalogue spaced\nfact window values in side, outside\naction open\nrequires window is-not outside\nfires open fires text\nfires-in-turn open turn text\n",
+    "spaced.context": "context spaced p\nfact window = in side\n"
+   },
+   "argv": [
+    "sheet",
+    "spaced.catalogue",
+    "spaced.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "sheet spaced p\ncue open\nfires open fires text\nfires-in-turn open turn text\nevidence window is-not outside, recorded in side\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "sheet-spaced-value-run-refused",
+   "source": "oracle",
+   "setup": {
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "spaced.catalogue": "catalogue spaced\nfact window values in side, outside\naction open\nrequires window is-not outside\nfires open fires text\nfires-in-turn open turn text\n",
+    "spaced.context": "context spaced p\nfact window = in  side\n"
+   },
+   "argv": [
+    "sheet",
+    "spaced.catalogue",
+    "spaced.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: spaced.context is malformed, the fact window is recorded as in  side, which the catalogue never declares for it\n"
+   }
+  },
+  {
+   "name": "gaps-spaced-token-recorded",
+   "source": "oracle",
+   "setup": {
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "spaced.catalogue": "catalogue spaced\nfact tools set-of read\tfile, edit\naction open\nrequires tools has edit\nfires open fires text\nfires-in-turn open turn text\n",
+    "spaced.context": "context spaced p\nfact tools = read file\n"
+   },
+   "argv": [
+    "gaps",
+    "spaced.catalogue",
+    "spaced.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "gaps spaced p\ngap open\nblocked tools has edit, recorded read file\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "gaps-spaced-token-run-refused",
+   "source": "oracle",
+   "setup": {
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "spaced.catalogue": "catalogue spaced\nfact tools set-of read\tfile, edit\naction open\nrequires tools has edit\nfires open fires text\nfires-in-turn open turn text\n",
+    "spaced.context": "context spaced p\nfact tools = read  file\n"
+   },
+   "argv": [
+    "gaps",
+    "spaced.catalogue",
+    "spaced.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: spaced.context is malformed, the fact tools carries the token read  file, which the catalogue never declares for it\n"
+   }
+  },
+  {
+   "name": "catalogue-spaced-test-unnamable",
+   "source": "oracle",
+   "setup": {
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "spaced.catalogue": "catalogue spaced\nfact window values in side, outside\naction open\nrequires window is in side\nfires open fires text\nfires-in-turn open turn text\n"
+   },
+   "argv": [
+    "catalogue",
+    "spaced.catalogue"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: spaced.catalogue is malformed, the line requires window is in side matches no catalogue line form\n"
+   }
   }
  ]
 }
