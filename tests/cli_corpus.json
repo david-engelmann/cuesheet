@@ -5310,6 +5310,148 @@
     "stdout": "",
     "stderr": "error: spaced.catalogue is malformed, the line requires window is in side matches no catalogue line form\n"
    }
+  },
+  {
+   "name": "catalogue-equals-name-printed",
+   "source": "oracle",
+   "setup": {
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "equals.catalogue": "catalogue mini\nfact win=dow values inside, outside\naction alpha\nrequires win=dow is inside\nfires alpha fires text\nfires-in-turn alpha turn text\n"
+   },
+   "argv": [
+    "catalogue",
+    "equals.catalogue"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "catalogue mini\nfact win=dow values inside, outside\naction alpha\nevidence win=dow is inside\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "sheet-equals-name-value-refused",
+   "source": "oracle",
+   "setup": {
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "equals.catalogue": "catalogue mini\nfact win=dow values inside, outside\naction alpha\nrequires win=dow is inside\nfires alpha fires text\nfires-in-turn alpha turn text\n",
+    "equals.context": "context mini p\nfact win=dow = inside\n"
+   },
+   "argv": [
+    "sheet",
+    "equals.catalogue",
+    "equals.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: equals.context is malformed, the fact win=dow is recorded as dow = inside, which the catalogue never declares for it\n"
+   }
+  },
+  {
+   "name": "sheet-equals-name-token-refused",
+   "source": "oracle",
+   "setup": {
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "equals-set.catalogue": "catalogue mini\nfact to=ols set-of read, edit\naction alpha\nrequires to=ols has read\nfires alpha fires text\nfires-in-turn alpha turn text\n",
+    "equals-set.context": "context mini p\nfact to=ols = read, edit\n"
+   },
+   "argv": [
+    "sheet",
+    "equals-set.catalogue",
+    "equals-set.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: equals-set.context is malformed, the fact to=ols carries the token ols = read, which the catalogue never declares for it\n"
+   }
+  },
+  {
+   "name": "sheet-equals-name-value-recorded",
+   "source": "oracle",
+   "setup": {
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "equals-value.catalogue": "catalogue mini\nfact win=dow values dow = inside, outside\naction alpha\nrequires win=dow is-not outside\nfires alpha fires text\nfires-in-turn alpha turn text\n",
+    "equals-value.context": "context mini p\nfact win=dow = inside\n"
+   },
+   "argv": [
+    "sheet",
+    "equals-value.catalogue",
+    "equals-value.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "sheet mini p\ncue alpha\nfires alpha fires text\nfires-in-turn alpha turn text\nevidence win=dow is-not outside, recorded dow = inside\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "gaps-equals-name-set-recorded",
+   "source": "oracle",
+   "setup": {
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "equals-fragment.catalogue": "catalogue mini\nfact to=ols set-of ols = read, edit\naction alpha\nrequires to=ols has edit\nrequires to=ols lacks edit\nfires alpha fires text\nfires-in-turn alpha turn text\n",
+    "equals-fragment.context": "context mini p\nfact to=ols = read, edit\n"
+   },
+   "argv": [
+    "gaps",
+    "equals-fragment.catalogue",
+    "equals-fragment.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "gaps mini p\ngap alpha\nblocked to=ols lacks edit, recorded edit, ols = read\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "sheet-equals-head-names",
+   "source": "oracle",
+   "setup": {
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "equals-head.catalogue": "catalogue ha=rness\nfact window values inside, outside\naction alpha\nrequires window is inside\nfires alpha fires text\nfires-in-turn alpha turn text\n",
+    "equals-head.context": "context ha=rness po=int\nfact window = inside\n"
+   },
+   "argv": [
+    "sheet",
+    "equals-head.catalogue",
+    "equals-head.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "sheet ha=rness po=int\ncue alpha\nfires alpha fires text\nfires-in-turn alpha turn text\nevidence window is inside, recorded inside\n",
+    "stderr": ""
+   }
   }
  ]
 }
