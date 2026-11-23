@@ -6143,6 +6143,143 @@
     "stdout": "sheet mini p\ncue alpha\nfires alpha fires text\nfires-in-turn alpha turn text\nevidence tools has read, recorded edit, read\ncue beta\nfires beta fires text\nfires-in-turn beta turn text\nevidence tools has edit, recorded edit, read\nevidence window is inside, recorded inside\n",
     "stderr": ""
    }
+  },
+  {
+   "name": "sheet-nel-context",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "nel.context": "context mini p\nfacttools=read,edit\nfactwindow=inside\nfactlast=read\n"
+   },
+   "argv": [
+    "sheet",
+    "c.catalogue",
+    "nel.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "sheet mini p\ncue alpha\nfires alpha fires text\nfires-in-turn alpha turn text\nevidence tools has read, recorded edit, read\ncue beta\nfires beta fires text\nfires-in-turn beta turn text\nevidence tools has edit, recorded edit, read\nevidence window is inside, recorded inside\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "sheet-separator-controls-middle-context",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "midsep.context": "context mini p\nfact\u001dtools\u001d=\u001dread, edit\nfact\u001ewindow\u001e=\u001einside\nfact\u001dlast\u001e=\u001dread\n"
+   },
+   "argv": [
+    "sheet",
+    "c.catalogue",
+    "midsep.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "sheet mini p\ncue alpha\nfires alpha fires text\nfires-in-turn alpha turn text\nevidence tools has read, recorded edit, read\ncue beta\nfires beta fires text\nfires-in-turn beta turn text\nevidence tools has edit, recorded edit, read\nevidence window is inside, recorded inside\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "catalogue-space-block-catalogue",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "spaceblock.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n"
+   },
+   "argv": [
+    "catalogue",
+    "spaceblock.catalogue"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nevidence tools has read\naction beta\nevidence tools has edit\nevidence window is inside\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "gaps-wide-space-context",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "wide.context": "context　mini　p\nfact tools = read\nfact window = outside\nfact　last　=　read\n"
+   },
+   "argv": [
+    "gaps",
+    "c.catalogue",
+    "wide.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "gaps mini p\ngap beta\nblocked tools has edit, recorded read\nblocked window is inside, recorded outside\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "sheet-line-separator-context",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "linesep.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n"
+   },
+   "argv": [
+    "sheet",
+    "c.catalogue",
+    "linesep.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "sheet mini p\ncue alpha\nfires alpha fires text\nfires-in-turn alpha turn text\nevidence tools has read, recorded edit, read\ncue beta\nfires beta fires text\nfires-in-turn beta turn text\nevidence tools has edit, recorded edit, read\nevidence window is inside, recorded inside\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "gaps-paragraph-separator-context",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "parasep.context": "context mini p\nfact tools = read, edit\nfact window = outside\nfact last = read\n"
+   },
+   "argv": [
+    "gaps",
+    "c.catalogue",
+    "parasep.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "gaps mini p\ngap beta\nblocked window is inside, recorded outside\n",
+    "stderr": ""
+   }
   }
  ]
 }
