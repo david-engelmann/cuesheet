@@ -6877,6 +6877,114 @@
     "stdout": "",
     "stderr": "error: kw6.context names the harness context and the catalogue names catalogue, and a sheet is defined only over one harness family\n"
    }
+  },
+  {
+   "name": "sheet-parent-climb-catalogue",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "sub/deep/placeholder": "x\n"
+   },
+   "argv": [
+    "sheet",
+    "sub/deep/../../c.catalogue",
+    "c.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "sheet mini p\ncue alpha\nfires alpha fires text\nfires-in-turn alpha turn text\nevidence tools has read, recorded edit, read\ncue beta\nfires beta fires text\nfires-in-turn beta turn text\nevidence tools has edit, recorded edit, read\nevidence window is inside, recorded inside\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "gaps-parent-context",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "sub/keep.txt": "x\n"
+   },
+   "argv": [
+    "gaps",
+    "c.catalogue",
+    "sub/../c.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "gaps mini p\ngap beta\nblocked tools has edit, recorded read\nblocked window is inside, recorded outside\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "catalogue-parent-mid-path",
+   "source": "oracle",
+   "setup": {
+    "sub/c.catalogue": "catalogue subcat\nfact gear set-of rope, lamp\nfact mode values auto, manual\naction rig\nrequires gear has rope\nrequires mode is auto\nfires rig rig text\nfires-in-turn rig turn text\n",
+    "sub/deep/placeholder": "x\n"
+   },
+   "argv": [
+    "catalogue",
+    "sub/deep/../c.catalogue"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "catalogue subcat\nfact gear set-of rope, lamp\nfact mode values auto, manual\naction rig\nevidence gear has rope\nevidence mode is auto\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "sheet-parent-climb-context",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "sub/deep/placeholder": "x\n"
+   },
+   "argv": [
+    "sheet",
+    "c.catalogue",
+    "sub/deep/../../c.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "sheet mini p\ncue alpha\nfires alpha fires text\nfires-in-turn alpha turn text\nevidence tools has read, recorded edit, read\ncue beta\nfires beta fires text\nfires-in-turn beta turn text\nevidence tools has edit, recorded edit, read\nevidence window is inside, recorded inside\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "catalogue-parent-last",
+   "source": "oracle",
+   "setup": {
+    "sub": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n"
+   },
+   "argv": [
+    "catalogue",
+    "sub/.."
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: the catalogue file sub/.. cannot be read\n"
+   }
+  },
+  {
+   "name": "sheet-parent-after-file",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n"
+   },
+   "argv": [
+    "sheet",
+    "c.catalogue/..",
+    "c.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: the catalogue file c.catalogue/.. cannot be read\n"
+   }
   }
  ]
 }
