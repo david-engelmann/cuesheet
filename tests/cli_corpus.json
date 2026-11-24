@@ -6280,6 +6280,146 @@
     "stdout": "gaps mini p\ngap beta\nblocked window is inside, recorded outside\n",
     "stderr": ""
    }
+  },
+  {
+   "name": "catalogue-nonascii-options-document",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "na.catalogue": "catalogue atelier\nfact window values inside, outside\nfact drink values the, café\nfact tools set-of zz, élan, 日本\naction alpha\nrequires drink is café\nrequires tools has élan\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires window is inside\nrequires tools has 日本\nfires beta fires text\nfires-in-turn beta turn text\n"
+   },
+   "argv": [
+    "catalogue",
+    "na.catalogue"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "catalogue atelier\nfact window values inside, outside\nfact drink values the, café\nfact tools set-of zz, élan, 日本\naction alpha\nevidence drink is café\nevidence tools has élan\naction beta\nevidence window is inside\nevidence tools has 日本\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "sheet-nonascii-recorded-set-order",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "na.catalogue": "catalogue atelier\nfact window values inside, outside\nfact drink values the, café\nfact tools set-of zz, élan, 日本\naction alpha\nrequires drink is café\nrequires tools has élan\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires window is inside\nrequires tools has 日本\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "set.context": "context atelier p\nfact drink = café\nfact tools = 日本, élan, zz\nfact window = outside\n"
+   },
+   "argv": [
+    "sheet",
+    "na.catalogue",
+    "set.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "sheet atelier p\ncue alpha\nfires alpha fires text\nfires-in-turn alpha turn text\nevidence drink is café, recorded café\nevidence tools has élan, recorded zz, élan, 日本\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "catalogue-nonascii-near-pair-document",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "np.catalogue": "catalogue atelier\nfact drink values cafe, café\nfact fenêtre values inside, outside\naction alpha\nrequires drink is cafe\nfires alpha fires text\nfires-in-turn alpha turn text\naction élan\nrequires drink is café\nrequires fenêtre is inside\nfires élan fires text\nfires-in-turn élan turn text\n"
+   },
+   "argv": [
+    "catalogue",
+    "np.catalogue"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "catalogue atelier\nfact drink values cafe, café\nfact fenêtre values inside, outside\naction alpha\nevidence drink is cafe\naction élan\nevidence drink is café\nevidence fenêtre is inside\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "gaps-nonascii-blocked-render",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "na.catalogue": "catalogue atelier\nfact window values inside, outside\nfact drink values the, café\nfact tools set-of zz, élan, 日本\naction alpha\nrequires drink is café\nrequires tools has élan\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires window is inside\nrequires tools has 日本\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "blocked.context": "context atelier p\nfact drink = the\nfact tools = 日本, zz\nfact window = inside\n"
+   },
+   "argv": [
+    "gaps",
+    "na.catalogue",
+    "blocked.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "gaps atelier p\ngap alpha\nblocked drink is café, recorded the\nblocked tools has élan, recorded zz, 日本\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "gaps-nonascii-near-pair",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "np.catalogue": "catalogue atelier\nfact drink values cafe, café\nfact fenêtre values inside, outside\naction alpha\nrequires drink is cafe\nfires alpha fires text\nfires-in-turn alpha turn text\naction élan\nrequires drink is café\nrequires fenêtre is inside\nfires élan fires text\nfires-in-turn élan turn text\n",
+    "np.context": "context atelier p\nfact drink = café\nfact fenêtre = outside\n"
+   },
+   "argv": [
+    "gaps",
+    "np.catalogue",
+    "np.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "gaps atelier p\ngap alpha\nblocked drink is cafe, recorded café\ngap élan\nblocked fenêtre is inside, recorded outside\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "sheet-nonascii-undeclared-accent",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "na.catalogue": "catalogue atelier\nfact window values inside, outside\nfact drink values the, café\nfact tools set-of zz, élan, 日本\naction alpha\nrequires drink is café\nrequires tools has élan\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires window is inside\nrequires tools has 日本\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "accent.context": "context atelier p\nfact drink = thé\n"
+   },
+   "argv": [
+    "sheet",
+    "na.catalogue",
+    "accent.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: accent.context is malformed, the fact drink is recorded as thé, which the catalogue never declares for it\n"
+   }
   }
  ]
 }
