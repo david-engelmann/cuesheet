@@ -6593,6 +6593,148 @@
     "stdout": "sheet 手順 読後\ncue alpha\nfires alpha fires text\nfires-in-turn alpha turn text\nevidence tools has read, recorded edit, read\ncue beta\nfires beta fires text\nfires-in-turn beta turn text\nevidence tools has edit, recorded edit, read\nevidence window is inside, recorded inside\n",
     "stderr": ""
    }
+  },
+  {
+   "name": "catalogue-decomposed-options-document",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "dc.catalogue": "catalogue atelier\nfact window values inside, outside\nfact drink values the, café\nfact tools set-of zz, élan, élan\naction alpha\nrequires drink is café\nrequires tools has élan\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires window is inside\nrequires tools has élan\nfires beta fires text\nfires-in-turn beta turn text\n"
+   },
+   "argv": [
+    "catalogue",
+    "dc.catalogue"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "catalogue atelier\nfact window values inside, outside\nfact drink values the, café\nfact tools set-of zz, élan, élan\naction alpha\nevidence drink is café\nevidence tools has élan\naction beta\nevidence window is inside\nevidence tools has élan\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "sheet-decomposed-value-recorded",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "dc.catalogue": "catalogue atelier\nfact window values inside, outside\nfact drink values the, café\nfact tools set-of zz, élan, élan\naction alpha\nrequires drink is café\nrequires tools has élan\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires window is inside\nrequires tools has élan\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "dc2.context": "context atelier p\nfact drink = café\nfact tools = élan\nfact window = outside\n"
+   },
+   "argv": [
+    "sheet",
+    "dc.catalogue",
+    "dc2.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "sheet atelier p\ncue alpha\nfires alpha fires text\nfires-in-turn alpha turn text\nevidence drink is café, recorded café\nevidence tools has élan, recorded élan\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "sheet-decomposed-recorded-set-order",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "dc.catalogue": "catalogue atelier\nfact window values inside, outside\nfact drink values the, café\nfact tools set-of zz, élan, élan\naction alpha\nrequires drink is café\nrequires tools has élan\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires window is inside\nrequires tools has élan\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "dc3.context": "context atelier p\nfact drink = café\nfact tools = élan, zz, élan\nfact window = outside\n"
+   },
+   "argv": [
+    "sheet",
+    "dc.catalogue",
+    "dc3.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "sheet atelier p\ncue alpha\nfires alpha fires text\nfires-in-turn alpha turn text\nevidence drink is café, recorded café\nevidence tools has élan, recorded élan, zz, élan\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "sheet-decomposed-near-pair-refused",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "dc.catalogue": "catalogue atelier\nfact window values inside, outside\nfact drink values the, café\nfact tools set-of zz, élan, élan\naction alpha\nrequires drink is café\nrequires tools has élan\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires window is inside\nrequires tools has élan\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "dc4.context": "context atelier p\nfact drink = café\n"
+   },
+   "argv": [
+    "sheet",
+    "dc.catalogue",
+    "dc4.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: dc4.context is malformed, the fact drink is recorded as café, which the catalogue never declares for it\n"
+   }
+  },
+  {
+   "name": "gaps-decomposed-blocked-render",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "dc.catalogue": "catalogue atelier\nfact window values inside, outside\nfact drink values the, café\nfact tools set-of zz, élan, élan\naction alpha\nrequires drink is café\nrequires tools has élan\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires window is inside\nrequires tools has élan\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "dc5.context": "context atelier p\nfact drink = the\nfact tools = zz, élan\nfact window = inside\n"
+   },
+   "argv": [
+    "gaps",
+    "dc.catalogue",
+    "dc5.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "gaps atelier p\ngap alpha\nblocked drink is café, recorded the\ngap beta\nblocked tools has élan, recorded élan, zz\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "sheet-decomposed-harness-mismatch",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "dc6.catalogue": "catalogue étape\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "dc6.context": "context étape start\nfact tools = read, edit\nfact window = inside\nfact last = read\n"
+   },
+   "argv": [
+    "sheet",
+    "dc6.catalogue",
+    "dc6.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: dc6.context names the harness étape and the catalogue names étape, and a sheet is defined only over one harness family\n"
+   }
   }
  ]
 }
