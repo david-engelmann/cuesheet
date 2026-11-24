@@ -6420,6 +6420,179 @@
     "stdout": "",
     "stderr": "error: accent.context is malformed, the fact drink is recorded as thé, which the catalogue never declares for it\n"
    }
+  },
+  {
+   "name": "sheet-nonascii-harness-name",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "na2.catalogue": "catalogue stagehánd\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "na2.context": "context stagehánd after-read\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "acc.context": "context mini après\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "gap.context": "context stagehánd after-réad\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "mm.context": "context stagehand after-read\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "cjk.catalogue": "catalogue 手順\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "cjk.context": "context 手順 読後\nfact tools = read, edit\nfact window = inside\nfact last = read\n"
+   },
+   "argv": [
+    "sheet",
+    "na2.catalogue",
+    "na2.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "sheet stagehánd after-read\ncue alpha\nfires alpha fires text\nfires-in-turn alpha turn text\nevidence tools has read, recorded edit, read\ncue beta\nfires beta fires text\nfires-in-turn beta turn text\nevidence tools has edit, recorded edit, read\nevidence window is inside, recorded inside\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "sheet-nonascii-decision-point",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "na2.catalogue": "catalogue stagehánd\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "na2.context": "context stagehánd after-read\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "acc.context": "context mini après\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "gap.context": "context stagehánd after-réad\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "mm.context": "context stagehand after-read\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "cjk.catalogue": "catalogue 手順\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "cjk.context": "context 手順 読後\nfact tools = read, edit\nfact window = inside\nfact last = read\n"
+   },
+   "argv": [
+    "sheet",
+    "c.catalogue",
+    "acc.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "sheet mini après\ncue alpha\nfires alpha fires text\nfires-in-turn alpha turn text\nevidence tools has read, recorded edit, read\ncue beta\nfires beta fires text\nfires-in-turn beta turn text\nevidence tools has edit, recorded edit, read\nevidence window is inside, recorded inside\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "gaps-nonascii-harness-and-point",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "na2.catalogue": "catalogue stagehánd\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "na2.context": "context stagehánd after-read\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "acc.context": "context mini après\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "gap.context": "context stagehánd after-réad\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "mm.context": "context stagehand after-read\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "cjk.catalogue": "catalogue 手順\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "cjk.context": "context 手順 読後\nfact tools = read, edit\nfact window = inside\nfact last = read\n"
+   },
+   "argv": [
+    "gaps",
+    "na2.catalogue",
+    "gap.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "gaps stagehánd after-réad\ngap beta\nblocked tools has edit, recorded read\nblocked window is inside, recorded outside\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "catalogue-nonascii-harness-document",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "na2.catalogue": "catalogue stagehánd\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "na2.context": "context stagehánd after-read\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "acc.context": "context mini après\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "gap.context": "context stagehánd after-réad\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "mm.context": "context stagehand after-read\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "cjk.catalogue": "catalogue 手順\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "cjk.context": "context 手順 読後\nfact tools = read, edit\nfact window = inside\nfact last = read\n"
+   },
+   "argv": [
+    "catalogue",
+    "na2.catalogue"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "catalogue stagehánd\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nevidence tools has read\naction beta\nevidence tools has edit\nevidence window is inside\n",
+    "stderr": ""
+   }
+  },
+  {
+   "name": "sheet-nonascii-harness-mismatch",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "na2.catalogue": "catalogue stagehánd\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "na2.context": "context stagehánd after-read\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "acc.context": "context mini après\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "gap.context": "context stagehánd after-réad\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "mm.context": "context stagehand after-read\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "cjk.catalogue": "catalogue 手順\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "cjk.context": "context 手順 読後\nfact tools = read, edit\nfact window = inside\nfact last = read\n"
+   },
+   "argv": [
+    "sheet",
+    "na2.catalogue",
+    "mm.context"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: mm.context names the harness stagehand and the catalogue names stagehánd, and a sheet is defined only over one harness family\n"
+   }
+  },
+  {
+   "name": "sheet-cjk-harness-and-point",
+   "source": "oracle",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n",
+    "na2.catalogue": "catalogue stagehánd\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "na2.context": "context stagehánd after-read\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "acc.context": "context mini après\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "gap.context": "context stagehánd after-réad\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "mm.context": "context stagehand after-read\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "cjk.catalogue": "catalogue 手順\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "cjk.context": "context 手順 読後\nfact tools = read, edit\nfact window = inside\nfact last = read\n"
+   },
+   "argv": [
+    "sheet",
+    "cjk.catalogue",
+    "cjk.context"
+   ],
+   "expect": {
+    "code": 0,
+    "stdout": "sheet 手順 読後\ncue alpha\nfires alpha fires text\nfires-in-turn alpha turn text\nevidence tools has read, recorded edit, read\ncue beta\nfires beta fires text\nfires-in-turn beta turn text\nevidence tools has edit, recorded edit, read\nevidence window is inside, recorded inside\n",
+    "stderr": ""
+   }
   }
  ]
 }
