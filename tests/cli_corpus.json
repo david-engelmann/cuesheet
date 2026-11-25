@@ -7908,6 +7908,327 @@
     "stdout": "",
     "stderr": "error: the following required arguments were not provided:\n  <CATALOGUE>\n\nUsage: cuesheet catalogue <CATALOGUE>\n\nFor more information, try '--help'.\n"
    }
+  },
+  {
+   "name": "sheet-unknown-alone",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet",
+    "--bogus"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: unexpected argument '--bogus' found\n\n  tip: to pass '--bogus' as a value, use '-- --bogus'\n\nUsage: cuesheet sheet <CATALOGUE> <CONTEXT>\n\nFor more information, try '--help'.\n"
+   }
+  },
+  {
+   "name": "sheet-unknown-short-alone",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet",
+    "-x"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: unexpected argument '-x' found\n\n  tip: to pass '-x' as a value, use '-- -x'\n\nUsage: cuesheet sheet <CATALOGUE> <CONTEXT>\n\nFor more information, try '--help'.\n"
+   }
+  },
+  {
+   "name": "sheet-unknown-valued-alone",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet",
+    "--bogus=x"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: unexpected argument '--bogus' found\n\n  tip: to pass '--bogus' as a value, use '-- --bogus'\n\nUsage: cuesheet sheet <CATALOGUE> <CONTEXT>\n\nFor more information, try '--help'.\n"
+   }
+  },
+  {
+   "name": "gaps-unknown-alone",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "gaps",
+    "--bogus"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: unexpected argument '--bogus' found\n\n  tip: to pass '--bogus' as a value, use '-- --bogus'\n\nUsage: cuesheet gaps <CATALOGUE> <CONTEXT>\n\nFor more information, try '--help'.\n"
+   }
+  },
+  {
+   "name": "gaps-unknown-short-alone",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "gaps",
+    "-x"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: unexpected argument '-x' found\n\n  tip: to pass '-x' as a value, use '-- -x'\n\nUsage: cuesheet gaps <CATALOGUE> <CONTEXT>\n\nFor more information, try '--help'.\n"
+   }
+  },
+  {
+   "name": "gaps-unknown-valued-alone",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "gaps",
+    "--bogus=x"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: unexpected argument '--bogus' found\n\n  tip: to pass '--bogus' as a value, use '-- --bogus'\n\nUsage: cuesheet gaps <CATALOGUE> <CONTEXT>\n\nFor more information, try '--help'.\n"
+   }
+  },
+  {
+   "name": "catalogue-unknown-alone",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "catalogue",
+    "--bogus"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: unexpected argument '--bogus' found\n\n  tip: to pass '--bogus' as a value, use '-- --bogus'\n\nUsage: cuesheet catalogue <CATALOGUE>\n\nFor more information, try '--help'.\n"
+   }
+  },
+  {
+   "name": "catalogue-unknown-short-alone",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "catalogue",
+    "-x"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: unexpected argument '-x' found\n\n  tip: to pass '-x' as a value, use '-- -x'\n\nUsage: cuesheet catalogue <CATALOGUE>\n\nFor more information, try '--help'.\n"
+   }
+  },
+  {
+   "name": "catalogue-unknown-valued-alone",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "catalogue",
+    "--bogus=x"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: unexpected argument '--bogus' found\n\n  tip: to pass '--bogus' as a value, use '-- --bogus'\n\nUsage: cuesheet catalogue <CATALOGUE>\n\nFor more information, try '--help'.\n"
+   }
+  },
+  {
+   "name": "sheet-unknown-behind-first-path",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet",
+    "c.catalogue",
+    "--bogus"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: unexpected argument '--bogus' found\n\n  tip: to pass '--bogus' as a value, use '-- --bogus'\n\nUsage: cuesheet sheet <CATALOGUE> <CONTEXT>\n\nFor more information, try '--help'.\n"
+   }
+  },
+  {
+   "name": "sheet-unknown-short-behind-first-path",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet",
+    "c.catalogue",
+    "-x"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: unexpected argument '-x' found\n\n  tip: to pass '-x' as a value, use '-- -x'\n\nUsage: cuesheet sheet <CATALOGUE> <CONTEXT>\n\nFor more information, try '--help'.\n"
+   }
+  },
+  {
+   "name": "sheet-unknown-valued-behind-first-path",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "sheet",
+    "c.catalogue",
+    "--bogus=x"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: unexpected argument '--bogus' found\n\n  tip: to pass '--bogus' as a value, use '-- --bogus'\n\nUsage: cuesheet sheet <CATALOGUE> <CONTEXT>\n\nFor more information, try '--help'.\n"
+   }
+  },
+  {
+   "name": "gaps-unknown-behind-first-path",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "gaps",
+    "c.catalogue",
+    "--bogus"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: unexpected argument '--bogus' found\n\n  tip: to pass '--bogus' as a value, use '-- --bogus'\n\nUsage: cuesheet gaps <CATALOGUE> <CONTEXT>\n\nFor more information, try '--help'.\n"
+   }
+  },
+  {
+   "name": "gaps-unknown-short-behind-first-path",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "gaps",
+    "c.catalogue",
+    "-x"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: unexpected argument '-x' found\n\n  tip: to pass '-x' as a value, use '-- -x'\n\nUsage: cuesheet gaps <CATALOGUE> <CONTEXT>\n\nFor more information, try '--help'.\n"
+   }
+  },
+  {
+   "name": "gaps-unknown-valued-behind-first-path",
+   "source": "clap",
+   "setup": {
+    "c.catalogue": "catalogue mini\nfact tools set-of read, edit\nfact window values inside, outside\nfact last values none, read\naction alpha\nrequires tools has read\nfires alpha fires text\nfires-in-turn alpha turn text\naction beta\nrequires tools has edit\nrequires window is inside\nfires beta fires text\nfires-in-turn beta turn text\n",
+    "c.context": "context mini p\nfact tools = read, edit\nfact window = inside\nfact last = read\n",
+    "partial.context": "context mini p\nfact tools = read\nfact window = outside\nfact last = read\n",
+    "empty.context": "context mini p\nfact last = none\n",
+    "bad.catalogue": "catalogue mini\nwander off\n",
+    "bad.context": "context mini\n"
+   },
+   "argv": [
+    "gaps",
+    "c.catalogue",
+    "--bogus=x"
+   ],
+   "expect": {
+    "code": 2,
+    "stdout": "",
+    "stderr": "error: unexpected argument '--bogus' found\n\n  tip: to pass '--bogus' as a value, use '-- --bogus'\n\nUsage: cuesheet gaps <CATALOGUE> <CONTEXT>\n\nFor more information, try '--help'.\n"
+   }
   }
  ]
 }
